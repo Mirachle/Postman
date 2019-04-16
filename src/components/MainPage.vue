@@ -1,20 +1,21 @@
 <template>
   <div class="col-10 offset-1">
     <input-comp class="row"/>
-    <list-comp class="row"/>
+    <list-comp :list="list"/>
   </div>
 </template>
 
 <script>
 import InputComp from "@/components/InputComp";
-import ListComp from "@/components/ListComp";
+import ListComp from "@/components/List/ListComp";
 
 export default {
   name: 'MainPage',
   data() {
     return {
       list: [
-        { isSuccess: false, type: "get", urlText: "fgs", value: "200", result: "sgsd"},
+        { isSuccess: false, type: "get", urlText: "http://codeyard.eu", value: "200", result: "sgsd"},
+        { isSuccess: true, type: "post", urlText: "http://codeyard.com", value: "400", result: "sgsd"}
       ],
     };
 
