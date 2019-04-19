@@ -1,6 +1,6 @@
 <template>
 <div class="row">
-    <div v-for="(item,index) in list" :key="index">
+    <div v-for="(item,index) in list" :key="index" style="width:100%;">
        <item-comp :item="item" />
     </div>
 </div>

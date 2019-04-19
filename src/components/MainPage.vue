@@ -14,7 +14,9 @@ export default {
   data() {
     return {
       list: [
-        { isSuccess: false, type: "get", urlText: "http://codeyard.eu", value: "200", result: "sgsd"},
+        { isSuccess: false, type: "get", urlText: "http://codeyard.eu", value: "200", result:[ "HTTP/1.1 301 Moved Permanently",
+        "Server: nginxyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy"
+        ]},
         { isSuccess: true, type: "post", urlText: "http://codeyard.com", value: "400", result: "sgsd"}
       ],
     };
