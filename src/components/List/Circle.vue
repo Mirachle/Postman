@@ -5,12 +5,12 @@
 <script>
 export default {
   name: 'GrayCircle',
-  data(){
-      return{
-          spannClassName: "gray-circle"
-      }
+  data() {
+    return {
+      spannClassName: 'gray-circle',
+    };
   },
-  props:['success']
+  props: ['success'],
 };
 </script>
 
@@ -30,9 +30,4 @@ export default {
 .fail{
     background: red;
 }
-
-
 </style>
-
-
-

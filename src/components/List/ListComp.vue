@@ -7,14 +7,16 @@
 </template>
 
 <script>
-import ItemComp from "@/components/List/ItemComp"
+import ItemComp from '@/components/List/ItemComp';
+
 export default {
-    name:'ListComp',
-    props:["list"],
-    components:{
-        'item-comp': ItemComp
-    },
-}
+  name: 'ListComp',
+  props: ['list'],
+  components: {
+    'item-comp': ItemComp,
+  },
+};
+
 </script>
 
 <style scoped>

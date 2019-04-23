@@ -18,26 +18,27 @@
 </template>
 
 <script>
-import Circle from "@/components/List/Circle";
-import Shape from "@/components/List/Shape";
+import Circle from '@/components/List/Circle';
+import Shape from '@/components/List/Shape';
+
 export default {
-  name: "ItemComp",
-  props: ["item"],
+  name: 'ItemComp',
+  props: ['item'],
   components: {
-    "shape-icon": Shape,
-    "circle-icon": Circle
+    'shape-icon': Shape,
+    'circle-icon': Circle,
   },
   data() {
     return {
       isShowResult: 1,
-      itemTypeId: "item-type",
-      itemUrlTextId: "item-url",
-      itemValueId: "item-value",
-      itemShapeId: "item-shape",
-      itemCircleId: "item-circle",
-      itemResultId: "item-result",
+      itemTypeId: 'item-type',
+      itemUrlTextId: 'item-url',
+      itemValueId: 'item-value',
+      itemShapeId: 'item-shape',
+      itemCircleId: 'item-circle',
+      itemResultId: 'item-result',
       isSuccess: 0,
-      effectName: 'fadeInDown'
+      effectName: 'fadeInDown',
     };
   },
   computed: {
@@ -47,31 +48,31 @@ export default {
       } else {
         this.isSuccess = 0;
       }
-    }
+    },
   },
   methods: {
     Clicked() {
-      if(this.isShowResult){
-        this.effectName='fadeInDown';
-        this.isShowResult=0;
-      }else{
-        this.effectName='';
-        this.isShowResult=1;
+      if (this.isShowResult) {
+        this.effectName = 'fadeInDown';
+        this.isShowResult = 0;
+      } else {
+        this.effectName = '';
+        this.isShowResult = 1;
       }
-    }
-  }
+    },
+  },
 };
 </script>
 
 <style scoped>
 
 .in-cont {
-  background-color: #a1a1a1;
+  background-color: #1111111a;
   border-radius: 15px;
   margin-top: 10px;
 }
 .in-cont-select {
-  background-color: #a1a1a1;
+  background-color: #1111111a;
   border-top-right-radius: 15px;
   border-top-left-radius: 15px;
   margin-top: 10px;
