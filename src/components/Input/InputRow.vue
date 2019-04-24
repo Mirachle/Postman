@@ -13,12 +13,6 @@ import ButtonComp from '@/components/Input/ButtonComp';
 
 export default {
   name: 'InputRow',
-  props: ['propsUrl'],
-  data() {
-    return {
-    };
-  },
-
   components: {
     'dropdown-comp': DropDownComp,
     'input-url': InputUrl,

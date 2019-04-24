@@ -1,6 +1,9 @@
 <template>
   <div>
-    <input v-model="areaValue" type="textarea" @keyup="area">
+    <textarea v-model="areaValue" @keyup="area" placeholder='{
+  "password": "letmein",
+  "email": "test@codeyard.eu"
+  }'/>
   </div>
 </template>
 
@@ -14,19 +17,19 @@ export default {
     };
   },
   methods: {
-    area(value) {
+    area() {
       this.$emit('area', this.areaValue);
     },
-  }
+  },
 };
 </script>
 
 <!-- Add 'scoped' attribute to limit CSS to this component only -->
 <style scoped>
-input{
+textarea{
   width: 100%;
   min-height: 100px;
-  border-radius: 15px;
+  border-radius: 5px;
   margin-top: 10px;
 }
 </style>

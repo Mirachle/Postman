@@ -1,11 +1,11 @@
 <template>
   <div>
     <select @change="optionChange" v-model="selected" class="minimal">
-      <option>POST</option>
-      <option>GET</option>
-      <option>PATCH</option>
-      <option>DELETE</option>
-      <option>PUT</option>
+      <option value="post">POST</option>
+      <option value="get">GET</option>
+      <option value="patch">PATCH</option>
+      <option value="delete">DELETE</option>
+      <option value="put">PUT</option>
     </select>
   </div>
 </template>
@@ -16,7 +16,7 @@ export default {
   name: 'DropDownComp',
   data() {
     return {
-      selected: 'POST',
+      selected: 'post',
     };
   },
   methods: {

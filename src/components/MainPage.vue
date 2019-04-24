@@ -6,6 +6,7 @@
 </template>
 
 <script>
+import axios from 'axios';
 import InputComp from '@/components/Input/InputComp';
 import ListComp from '@/components/List/ListComp';
 
@@ -27,9 +28,11 @@ export default {
           value: '400',
           result: 'sgsd' },
       ],
-      selected: 'POST',
+      selected: 'post',
       url: '',
-      textarea: '',
+      textArea: '',
+      response: '',
+      statusCode: '',
     };
   },
 
@@ -46,15 +49,36 @@ export default {
       this.url = value;
     },
     area(value) {
-      this.textarea = value;
+      this.textArea = value;
     },
-    send() {
-      this.list.push({ type: this.selected, urlText: this.url});
+    async send() {
+      try {
+        var r = await axios[this.selected](this.url, { data: JSON.parse(this.textArea)});
+        this.response = (JSON.stringify(r.data.result)).replace(/"/g, ' ');
+        this.statusCode = JSON.stringify(r.status);
+        this.list.push({ type: this.selected, urlText: this.url, result: this.response, value: this.statusCode });
+      } catch (e) {
+        if(e.response) {
+          this.response = (JSON.stringify(e.response)).replace(/"/g, ' ');
+          this.statusCode = JSON.stringify(e.response.status);
+          this.list.push({ type: this.selected, urlText: this.url, result: this.response, value: this.statusCode });
+        } else {
+          this.list.push({ type: this.selected, urlText: this.url, result: e.message, value: '0' });
+        }
+      }
+      this.response = '';
+      this.statusCode = '';
     }
   },
 };
+
+/*
+https://us-central1-ria-server-b1103.cloudfunctions.net/authenticate
+{
+"password": "letmein",
+"email": "test@codeyard.eu"
+}
+*/
+
 </script>
 
-<!-- Add 'scoped' attribute to limit CSS to this component only -->
-<style scoped>
-</style>

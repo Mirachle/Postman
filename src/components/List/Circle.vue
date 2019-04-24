@@ -25,9 +25,9 @@ export default {
     padding: 0px;
 }
 .suc{
-    background: green;
+    background: lime;
 }
 .fail{
-    background: red;
+    background: #ff7e7e;
 }
 </style>

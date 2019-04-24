@@ -24,10 +24,9 @@ export default {
   methods: {
     selected(value) {
       this.$emit('selected', value);
-      if ((value === 'GET') || value === 'DELETE') {
+      if ((value === 'get') || value === 'delete') {
         this.areaVisible = false;
-      }
-      else {
+      } else {
         this.areaVisible = true;
       }
     },
