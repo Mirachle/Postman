@@ -53,22 +53,28 @@ export default {
     },
     async send() {
       try {
-        var r = await axios[this.selected](this.url, { data: JSON.parse(this.textArea)});
+        const r = await axios[this.selected](this.url, { data: JSON.parse(this.textArea) });
         this.response = (JSON.stringify(r.data.result)).replace(/"/g, ' ');
         this.statusCode = JSON.stringify(r.status);
-        this.list.push({ type: this.selected, urlText: this.url, result: this.response, value: this.statusCode });
+        this.list.push({
+          type: this.selected, urlText: this.url, result: this.response, value: this.statusCode,
+        });
       } catch (e) {
-        if(e.response) {
+        if (e.response) {
           this.response = (JSON.stringify(e.response)).replace(/"/g, ' ');
           this.statusCode = JSON.stringify(e.response.status);
-          this.list.push({ type: this.selected, urlText: this.url, result: this.response, value: this.statusCode });
+          this.list.push({
+            type: this.selected, urlText: this.url, result: this.response, value: this.statusCode,
+          });
         } else {
-          this.list.push({ type: this.selected, urlText: this.url, result: e.message, value: '0' });
+          this.list.push({
+            type: this.selected, urlText: this.url, result: e.message, value: '0',
+          });
         }
       }
       this.response = '';
       this.statusCode = '';
-    }
+    },
   },
 };
 

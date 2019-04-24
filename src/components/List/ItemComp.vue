@@ -4,7 +4,7 @@
       <div :class="['col-12', 'col-md-1']" :id="itemCircleId">
         <circle-icon :success="isSuccess"/>
       </div>
-      <div :class="['col-12', 'col-md-2']" :id="itemTypeId" style="vertical-align: middle;">{{this.item.type}}</div>
+      <div :class="['col-12', 'col-md-2']" :id="itemTypeId">{{this.item.type}}</div>
       <div :class="['col-12' ,'col-md-5']" :id="itemUrlTextId">{{this.item.urlText}}</div>
       <div :class="['col-12', 'col-md-2']" :id="itemValueId">{{this.item.value}}</div>
       <div :class="['col-12', 'col-md-2']" :id="itemShapeId">
