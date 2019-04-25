@@ -10,7 +10,7 @@ export default {
   name: 'InputUrl',
   data() {
     return {
-      url: '',
+      url: 'https://us-central1-ria-server-b1103.cloudfunctions.net/authenticate',
     };
   },
 

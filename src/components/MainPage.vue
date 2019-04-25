@@ -10,6 +10,8 @@ import axios from "axios";
 import InputComp from "@/components/Input/InputComp";
 import ListComp from "@/components/List/ListComp";
 
+/* eslint-disable */
+
 export default {
   name: "MainPage",
   data() {
@@ -34,12 +36,23 @@ export default {
         }
       ],
       selected: "post",
-      url: "",
+      url: 'https://us-central1-ria-server-b1103.cloudfunctions.net/authenticate',
       textArea: "",
       response: "",
       statusCode: ""
     };
   },
+
+created(){
+axios.interceptors.response.use((response) => response, (error) => {
+  if (typeof error.response === 'undefined') {
+    this.response = error;
+    this.statusCode = '400';
+    this.listPush();
+  }
+  return Promise.reject(error)
+})
+},
 
   components: {
     "input-comp": InputComp,
@@ -56,57 +69,45 @@ export default {
     area(value) {
       this.textArea = value;
     },
+    handleError(e) {
+      this.response = JSON.stringify(e.response).replace(/"/g, " ");
+      this.statusCode = JSON.stringify(e.response.status);
+      this.listPush();
+    },
+    listPush() {
+      this.list.push({
+        type: this.selected,
+        urlText: this.url,
+        result: this.response,
+        value: this.statusCode,
+      });
+    },
     async send() {
       try {
-        if (this.selected == "post") {
-          axios.post(this.url, { data: JSON.parse(this.textArea) }).then(r => {
-            console.log(r)
-            this.response = JSON.stringify(r.data.result).replace(/"/g, " ");
-            console.log(this.response)
-            this.statusCode = JSON.stringify(r.status);
-            console.log(this.statusCode)
-            this.list.push({
-              type: this.selected,
-              urlText: this.url,
-              result: this.response,
-              value: this.statusCode
-            });
-          });
-        } else if(this.selected == "get"){
-          axios.get(this.url).then(r => {
-            console.log(r);
-            this.response = JSON.stringify(r.data).replace(/"/g, " ");
-            this.statusCode = JSON.stringify(r.status);
-            this.list.push({
-              type: this.selected,
-              urlText: this.url,
-              result: this.response,
-              value: this.statusCode
-            });
-          });
-        }else if(this.selected == "delete"){
-          axios.delete(this.url).then(r => {
-            console.log(r)
-            this.response = JSON.stringify(r.data).replace(/"/g, " ");
-            this.statusCode = JSON.stringify(r.status);
-            this.list.push({
-              type: this.selected,
-              urlText: this.url,
-              result: this.response,
-              value: this.statusCode
-            });
-          }).catch
+        if ((this.selected == "post") || (this.selected == "put") || (this.selected == "patch")) {
+          axios[this.selected](this.url, {
+            data: JSON.parse(this.textArea)
+            })
+            .then(r => {
+              this.response = JSON.stringify(r.data.result).replace(/"/g, " ");
+              this.statusCode = JSON.stringify(r.status);
+              this.listPush();
+            })
+            .catch(e => this.handleError(e));
+        } else{
+          axios[this.selected](this.url)
+            .then(r => {
+              this.response = JSON.stringify(r.data).replace(/"/g, " ");
+              this.statusCode = JSON.stringify(r.status);
+              this.listPush();
+            })
+            .catch(e => this.handleError(e));
         }
       } catch (e) {
         if (e.response) {
           this.response = JSON.stringify(e.response).replace(/"/g, " ");
           this.statusCode = JSON.stringify(e.response.status);
-          this.list.push({
-            type: this.selected,
-            urlText: this.url,
-            result: this.response,
-            value: this.statusCode
-          });
+          this.listPush();
         } else {
           this.list.push({
             type: this.selected,
@@ -128,6 +129,9 @@ https://us-central1-ria-server-b1103.cloudfunctions.net/authenticate
 "password": "letmein",
 "email": "test@codeyard.eu"
 }
+console.log(r);
+console.log(this.response);
+console.log(this.statusCode);
 */
 </script>
 
