@@ -1,44 +1,49 @@
 <template>
-  <div class='col-10 offset-1'>
+  <div class="col-10 offset-1">
     <input-comp @selected="selectedChange" @sendUrl="sendUrl" @area="area" @send="send"/>
-    <list-comp :list='list'/>
+    <list-comp :list="list"/>
   </div>
 </template>
 
 <script>
-import axios from 'axios';
-import InputComp from '@/components/Input/InputComp';
-import ListComp from '@/components/List/ListComp';
+import axios from "axios";
+import InputComp from "@/components/Input/InputComp";
+import ListComp from "@/components/List/ListComp";
 
 export default {
-  name: 'MainPage',
+  name: "MainPage",
   data() {
     return {
       list: [
-        { isSuccess: false,
-          type: 'get',
-          urlText: 'http://codeyard.eu',
-          value: '200',
-          result: ['HTTP/1.1 301 Moved Permanently',
-            'Server: nginxyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy',
-          ] },
-        { isSuccess: true,
-          type: 'post',
-          urlText: 'http://codeyard.com',
-          value: '400',
-          result: 'sgsd' },
+        {
+          isSuccess: false,
+          type: "get",
+          urlText: "http://codeyard.eu",
+          value: "200",
+          result: [
+            "HTTP/1.1 301 Moved Permanently",
+            "Server: nginxyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy"
+          ]
+        },
+        {
+          isSuccess: true,
+          type: "post",
+          urlText: "http://codeyard.com",
+          value: "400",
+          result: "sgsd"
+        }
       ],
-      selected: 'post',
-      url: '',
-      textArea: '',
-      response: '',
-      statusCode: '',
+      selected: "post",
+      url: "",
+      textArea: "",
+      response: "",
+      statusCode: ""
     };
   },
 
   components: {
-    'input-comp': InputComp,
-    'list-comp': ListComp,
+    "input-comp": InputComp,
+    "list-comp": ListComp
   },
 
   methods: {
@@ -53,29 +58,68 @@ export default {
     },
     async send() {
       try {
-        const r = await axios[this.selected](this.url, { data: JSON.parse(this.textArea) });
-        this.response = (JSON.stringify(r.data.result)).replace(/"/g, ' ');
-        this.statusCode = JSON.stringify(r.status);
-        this.list.push({
-          type: this.selected, urlText: this.url, result: this.response, value: this.statusCode,
-        });
+        if (this.selected == "post") {
+          axios.post(this.url, { data: JSON.parse(this.textArea) }).then(r => {
+            console.log(r)
+            this.response = JSON.stringify(r.data.result).replace(/"/g, " ");
+            console.log(this.response)
+            this.statusCode = JSON.stringify(r.status);
+            console.log(this.statusCode)
+            this.list.push({
+              type: this.selected,
+              urlText: this.url,
+              result: this.response,
+              value: this.statusCode
+            });
+          });
+        } else if(this.selected == "get"){
+          axios.get(this.url).then(r => {
+            console.log(r);
+            this.response = JSON.stringify(r.data).replace(/"/g, " ");
+            this.statusCode = JSON.stringify(r.status);
+            this.list.push({
+              type: this.selected,
+              urlText: this.url,
+              result: this.response,
+              value: this.statusCode
+            });
+          });
+        }else if(this.selected == "delete"){
+          axios.delete(this.url).then(r => {
+            console.log(r)
+            this.response = JSON.stringify(r.data).replace(/"/g, " ");
+            this.statusCode = JSON.stringify(r.status);
+            this.list.push({
+              type: this.selected,
+              urlText: this.url,
+              result: this.response,
+              value: this.statusCode
+            });
+          }).catch
+        }
       } catch (e) {
         if (e.response) {
-          this.response = (JSON.stringify(e.response)).replace(/"/g, ' ');
+          this.response = JSON.stringify(e.response).replace(/"/g, " ");
           this.statusCode = JSON.stringify(e.response.status);
           this.list.push({
-            type: this.selected, urlText: this.url, result: this.response, value: this.statusCode,
+            type: this.selected,
+            urlText: this.url,
+            result: this.response,
+            value: this.statusCode
           });
         } else {
           this.list.push({
-            type: this.selected, urlText: this.url, result: e.message, value: '0',
+            type: this.selected,
+            urlText: this.url,
+            result: e.message,
+            value: "0"
           });
         }
       }
-      this.response = '';
-      this.statusCode = '';
-    },
-  },
+      this.response = "";
+      this.statusCode = "";
+    }
+  }
 };
 
 /*
@@ -85,6 +129,5 @@ https://us-central1-ria-server-b1103.cloudfunctions.net/authenticate
 "email": "test@codeyard.eu"
 }
 */
-
 </script>
 

@@ -66,22 +66,27 @@ export default {
 </script>
 
 <style scoped>
-
+.row{
+  margin: 0;
+}
 .in-cont {
   background-color: #1111111a;
   border-radius: 15px;
+  margin: 0;
   margin-top: 10px;
 }
 .in-cont-select {
   background-color: #1111111a;
   border-top-right-radius: 15px;
   border-top-left-radius: 15px;
+  margin: 0;
   margin-top: 10px;
 }
 #item-result {
-  background-color: #e0e0e0;
+  background-color: #bebebe;
   border-bottom-left-radius: 15px;
   border-bottom-right-radius: 15px;
+  word-break: break-all;
 }
 #item-circle {
   display: flex;
