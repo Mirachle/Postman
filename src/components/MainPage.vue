@@ -70,9 +70,25 @@ axios.interceptors.response.use((response) => response, (error) => {
       this.textArea = value;
     },
     handleError(e) {
-      this.response = JSON.stringify(e.response).replace(/"/g, " ");
-      this.statusCode = JSON.stringify(e.response.status);
-      this.listPush();
+      try{
+        this.response = JSON.stringify(e.response).replace(/"/g, " ");
+        this.statusCode = JSON.stringify(e.response.status);
+        this.listPush();
+      }
+      catch(e){
+      if (e.response) {
+          this.response = JSON.stringify(e.response).replace(/"/g, " ");
+          this.statusCode = JSON.stringify(e.response.status);
+          this.listPush();
+        } else {
+          this.list.push({
+            type: this.selected,
+            urlText: this.url,
+            result: e.message,
+            value: "0"
+          });
+        }
+      }
     },
     listPush() {
       this.list.push({
@@ -85,16 +101,23 @@ axios.interceptors.response.use((response) => response, (error) => {
     async send() {
       try {
         if ((this.selected == "post") || (this.selected == "put") || (this.selected == "patch")) {
-          axios[this.selected](this.url, {
-            data: JSON.parse(this.textArea)
-            })
+          axios[this.selected](this.url, JSON.parse(this.textArea))
             .then(r => {
-              this.response = JSON.stringify(r.data.result).replace(/"/g, " ");
-              this.statusCode = JSON.stringify(r.status);
-              this.listPush();
+              console.log(r)
+              if (r.data.result){
+                this.response = JSON.stringify(r.data.result).replace(/"/g, " ");
+                this.statusCode = JSON.stringify(r.status);
+                this.listPush();
+              }
+              else {
+                this.response = JSON.stringify(r.data).replace(/"/g, " ");
+                this.statusCode = JSON.stringify(r.status);
+                this.listPush();
+              }
             })
             .catch(e => this.handleError(e));
-        } else{
+        }
+        else{
           axios[this.selected](this.url)
             .then(r => {
               this.response = JSON.stringify(r.data).replace(/"/g, " ");
@@ -104,18 +127,7 @@ axios.interceptors.response.use((response) => response, (error) => {
             .catch(e => this.handleError(e));
         }
       } catch (e) {
-        if (e.response) {
-          this.response = JSON.stringify(e.response).replace(/"/g, " ");
-          this.statusCode = JSON.stringify(e.response.status);
-          this.listPush();
-        } else {
-          this.list.push({
-            type: this.selected,
-            urlText: this.url,
-            result: e.message,
-            value: "0"
-          });
-        }
+        this.handleError(e)
       }
       this.response = "";
       this.statusCode = "";
