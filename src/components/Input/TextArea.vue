@@ -1,6 +1,6 @@
 <template>
   <div>
-    <textarea v-model="areaValue" placeholder='{
+    <textarea v-model="value" @input="areaChanged" placeholder='{
   "password": "letmein",
   "email": "test@codeyard.eu"
   }'/>
@@ -11,15 +11,25 @@
 
 export default {
   name: 'TextArea',
+  props: {
+    areaValue: {
+      type: String,
+      default: ''
+    }
+  },
   data() {
     return {
-      areaValue: '',
+      value: undefined
     };
   },
+  watch:{
+   areaValue(newValue,oldValue){
+      this.value = newValue;
+   }
+  },
   methods: {
-    clearArea() {
-      this.$emit('area', this.areaValue);
-      this.areaValue = '';
+    areaChanged() {
+      this.$emit('areaChanged', this.value)
     }
   },
 };

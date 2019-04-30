@@ -1,6 +1,6 @@
 <template>
   <div>
-    <input v-model="url" type="text" placeholder="Please enter url.">
+    <input v-model="value" type="text" placeholder="Please enter url." @input="urlChanged">
   </div>
 </template>
 
@@ -8,17 +8,26 @@
 
 export default {
   name: 'InputUrl',
+  props: {
+    url: {
+      type: String,
+      default: ''
+    }
+  },
   data() {
     return {
-      url: '',
+      value: undefined
     };
   },
-
+  watch:{
+   url(newValue,oldValue){
+      this.value = newValue;
+   }
+  },
   methods: {
-    clearText() {
-      this.$emit('sendUrl', this.url);
-      this.url = '';
-    }
+    urlChanged(){
+      this.$emit('urlChanged', this.value)
+    },
   },
 };
 </script>

@@ -1,6 +1,6 @@
 <template>
   <div class="col-10 offset-1">
-    <input-comp @selected="selectedChange" @sendUrl="sendUrl" @area="area" @send="send"/>
+    <input-comp @send="send"/>
     <list-comp :list="list"/>
   </div>
 </template>
@@ -10,31 +10,11 @@ import axios from "axios";
 import InputComp from "@/components/Input/InputComp";
 import ListComp from "@/components/List/ListComp";
 
-/* eslint-disable */
-
 export default {
   name: "MainPage",
   data() {
     return {
-      list: [
-        {
-          isSuccess: false,
-          type: "get",
-          urlText: "http://codeyard.eu",
-          value: "200",
-          result: [
-            "HTTP/1.1 301 Moved Permanently",
-            "Server: nginxyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy"
-          ]
-        },
-        {
-          isSuccess: true,
-          type: "post",
-          urlText: "http://codeyard.com",
-          value: "400",
-          result: "sgsd"
-        }
-      ],
+      list: [],
       selected: "post",
       url: '',
       textArea: "",
@@ -60,14 +40,11 @@ axios.interceptors.response.use((response) => response, (error) => {
   },
 
   methods: {
-    selectedChange(value) {
-      this.selected = value;
-    },
-    sendUrl(value) {
-      this.url = value;
-    },
-    area(value) {
-      this.textArea = value;
+    clear(){
+      this.url = "";
+      this.response = "";
+      this.statusCode = "";
+      this.textArea = "";
     },
     handleError(e) {
       try{
@@ -87,10 +64,7 @@ axios.interceptors.response.use((response) => response, (error) => {
             result: e.message,
             value: "0"
           });
-      this.url = "";
-      this.response = "";
-      this.statusCode = "";
-      this.textArea = "";
+         this.clear();
         }
       }
     },
@@ -101,12 +75,12 @@ axios.interceptors.response.use((response) => response, (error) => {
         result: this.response,
         value: this.statusCode,
       })
-      this.url = "";
-      this.response = "";
-      this.statusCode = "";
-      this.textArea = "";
+      this.clear();
     },
-    async send() {
+    send(data) {
+      this.url = JSON.stringify(data.url).replace(/"/g, "");
+      this.selected = JSON.stringify(data.method).replace(/"/g, "");
+      this.textArea = data.text;
       if(this.url != ("" | " ")){
         try {
           if ((this.selected == "post") || (this.selected == "put") || (this.selected == "patch")) {

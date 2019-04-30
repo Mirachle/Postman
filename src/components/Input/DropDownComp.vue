@@ -38,7 +38,7 @@ select {
   border-radius: 5px;
   display: inline-block;
   font: inherit;
-  padding: 0.2em 1em 0.2em 0.5em;
+  padding: 0.2em 2em 0.2em 0.5em;
   color:  black;
   font-weight: 600;
   cursor: pointer;

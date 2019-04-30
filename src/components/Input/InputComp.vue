@@ -1,7 +1,7 @@
 <template>
   <div>
-    <input-row @selectedChange="selected" @sendUrl="sendUrl" @send="send"/>
-    <text-area ref="textArea" v-if="areaVisible" @area="area"/>
+    <input-row @selectedChange="selected" @send="send"/>
+    <text-area v-if="areaVisible" :areaValue="areaValue" @areaChanged="areaChanged"/>
   </div>
 </template>
 
@@ -14,6 +14,7 @@ export default {
   data() {
     return {
       areaVisible: true,
+      areaValue: '',
     };
   },
 
@@ -23,27 +24,23 @@ export default {
   },
   methods: {
     selected(value) {
-      this.$emit('selected', value);
       if ((value === 'get') || value === 'delete') {
         this.areaVisible = false;
       } else {
         this.areaVisible = true;
       }
     },
-    sendUrl(url) {
-      this.$emit('sendUrl', url);
+    areaChanged(value) {
+      this.areaValue = value;
     },
-    area(value) {
-      this.$emit('area', value);
-    },
-    send(){
-      this.$refs.textArea.clearArea();
-      this.$emit('send');
+    send(data){
+      this.$emit('send',{
+        url: data.url,
+        method: data.method,
+        text: this.areaValue
+      });
+      this.areaValue = ''
     }
   },
 };
 </script>
-
-<!-- Add 'scoped' attribute to limit CSS to this component only -->
-<style scoped>
-</style>

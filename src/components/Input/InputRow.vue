@@ -1,7 +1,7 @@
 <template>
   <div class="row">
     <dropdown-comp class="col-md-2 col-12 col-sm-4 center" @selected="selectedChange"/>
-    <input-url ref="inputUrl" class="col-md-9 col-12 col-sm-8 center" @sendUrl="sendUrl"/>
+    <input-url class="col-md-9 col-12 col-sm-8 center" :url="url" @urlChanged="urlChanged"/>
     <button-comp class="col-md-1 col-12 col-sm-12 center" @send="send"/>
   </div>
 </template>
@@ -18,16 +18,26 @@ export default {
     'input-url': InputUrl,
     'button-comp': ButtonComp,
   },
+  data(){
+    return {
+      url: '',
+      method: 'post'
+    }
+  },
   methods: {
+    urlChanged(url){
+      this.url = url;
+    },
     selectedChange(value) {
       this.$emit('selectedChange', value);
-    },
-    sendUrl(url) {
-      this.$emit('sendUrl', url);
+      this.method = value;
     },
     send(){
-      this.$refs.inputUrl.clearText();
-      this.$emit('send');
+      this.$emit('send', {
+        url: this.url,
+        method: this.method
+      });
+      this.url='';
     }
   },
 };
