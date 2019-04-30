@@ -101,6 +101,9 @@ export default {
 #item-url {
   text-align: center;
   font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 #item-value {
   text-align: center;

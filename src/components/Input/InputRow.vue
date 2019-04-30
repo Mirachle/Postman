@@ -1,8 +1,8 @@
 <template>
   <div class="row">
     <dropdown-comp class="col-md-2 col-12 col-sm-4 center" @selected="selectedChange"/>
-    <input-url class="col-md-9 col-12 col-sm-8 center" @sendUrl="sendUrl"/>
-    <button-comp class="col-md-1 col-12 col-sm-12 center" @send="$emit('send')"/>
+    <input-url ref="inputUrl" class="col-md-9 col-12 col-sm-8 center" @sendUrl="sendUrl"/>
+    <button-comp class="col-md-1 col-12 col-sm-12 center" @send="send"/>
   </div>
 </template>
 
@@ -25,6 +25,10 @@ export default {
     sendUrl(url) {
       this.$emit('sendUrl', url);
     },
+    send(){
+      this.$refs.inputUrl.clearText();
+      this.$emit('send');
+    }
   },
 };
 </script>
@@ -39,4 +43,11 @@ export default {
 .center{
   text-align: center;
 }
+
+@media only screen and (max-width: 767.9px) {
+    .row{
+      margin: auto;
+      margin-top: 10px;
+    }
+  }
 </style>

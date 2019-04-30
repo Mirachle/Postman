@@ -39,7 +39,7 @@ export default {
       url: '',
       textArea: "",
       response: "",
-      statusCode: ""
+      statusCode: "",
     };
   },
 
@@ -87,6 +87,10 @@ axios.interceptors.response.use((response) => response, (error) => {
             result: e.message,
             value: "0"
           });
+      this.url = "";
+      this.response = "";
+      this.statusCode = "";
+      this.textArea = "";
         }
       }
     },
@@ -96,15 +100,18 @@ axios.interceptors.response.use((response) => response, (error) => {
         urlText: this.url,
         result: this.response,
         value: this.statusCode,
-      });
+      })
+      this.url = "";
+      this.response = "";
+      this.statusCode = "";
+      this.textArea = "";
     },
-    send() {
+    async send() {
       if(this.url != ("" | " ")){
         try {
           if ((this.selected == "post") || (this.selected == "put") || (this.selected == "patch")) {
             axios[this.selected](this.url, JSON.parse(this.textArea))
               .then(r => {
-                console.log(r)
                 if (r.data.result){
                   this.response = JSON.stringify(r.data.result).replace(/"/g, " ");
                   this.statusCode = JSON.stringify(r.status);
@@ -130,8 +137,6 @@ axios.interceptors.response.use((response) => response, (error) => {
         } catch (e) {
           this.handleError(e)
         }
-        this.response = "";
-        this.statusCode = "";
       }
     }
   }

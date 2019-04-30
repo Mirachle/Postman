@@ -1,6 +1,6 @@
 <template>
   <div>
-    <textarea v-model="areaValue" @keyup="area" placeholder='{
+    <textarea v-model="areaValue" placeholder='{
   "password": "letmein",
   "email": "test@codeyard.eu"
   }'/>
@@ -17,9 +17,10 @@ export default {
     };
   },
   methods: {
-    area() {
+    clearArea() {
       this.$emit('area', this.areaValue);
-    },
+      this.areaValue = '';
+    }
   },
 };
 </script>

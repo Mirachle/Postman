@@ -1,6 +1,6 @@
 <template>
   <div>
-    <input @keyup="sendUrl" v-model="url" type="text" placeholder="Please enter url.">
+    <input v-model="url" type="text" placeholder="Please enter url.">
   </div>
 </template>
 
@@ -15,9 +15,10 @@ export default {
   },
 
   methods: {
-    sendUrl() {
-        this.$emit('sendUrl', this.url);
-    },
+    clearText() {
+      this.$emit('sendUrl', this.url);
+      this.url = '';
+    }
   },
 };
 </script>
@@ -29,4 +30,13 @@ input{
   border-radius: 5px;
   min-height: 30px;
 }
+
+@media only screen and (max-width: 767.9px) {
+    input{
+      width: 100%;
+    }
+    div{
+      padding: 0px;
+    }
+  }
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div style="padding:0px;">
     <select @change="optionChange" v-model="selected" class="minimal">
       <option value="post">POST</option>
       <option value="get">GET</option>
@@ -38,8 +38,7 @@ select {
   border-radius: 5px;
   display: inline-block;
   font: inherit;
-  padding: 0.2em 2em 0.2em 0.5em;
-  margin-left: 1vw;
+  padding: 0.2em 1em 0.2em 0.5em;
   color:  black;
   font-weight: 600;
   cursor: pointer;

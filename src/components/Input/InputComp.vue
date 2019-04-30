@@ -1,7 +1,7 @@
 <template>
   <div>
-    <input-row @selectedChange="selected" @sendUrl="sendUrl" @send="$emit('send')"/>
-    <text-area v-if="areaVisible" @area="area"/>
+    <input-row @selectedChange="selected" @sendUrl="sendUrl" @send="send"/>
+    <text-area ref="textArea" v-if="areaVisible" @area="area"/>
   </div>
 </template>
 
@@ -36,6 +36,10 @@ export default {
     area(value) {
       this.$emit('area', value);
     },
+    send(){
+      this.$refs.textArea.clearArea();
+      this.$emit('send');
+    }
   },
 };
 </script>

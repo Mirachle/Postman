@@ -23,4 +23,12 @@ input {
   padding-left: 10px;
   cursor: pointer;
 }
+
+@media only screen and (max-width: 767.9px) {
+    input{
+      width: 80%;
+      margin-top: 10px;
+    }
+  }
+
 </style>
