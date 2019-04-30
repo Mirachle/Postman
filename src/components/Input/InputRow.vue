@@ -1,8 +1,8 @@
 <template>
   <div class="row">
-    <dropdown-comp class="col-lg-2 col-12 center" @selected="selectedChange"/>
-    <input-url class="col-lg-9 col-sm-6 col-12 center" @sendUrl="sendUrl"/>
-    <button-comp class="col-lg-1 col-sm-6 col-12 center" @send="$emit('send')"/>
+    <dropdown-comp class="col-md-2 col-12 col-sm-4 center" @selected="selectedChange"/>
+    <input-url class="col-md-9 col-12 col-sm-8 center" @sendUrl="sendUrl"/>
+    <button-comp class="col-md-1 col-12 col-sm-12 center" @send="$emit('send')"/>
   </div>
 </template>
 

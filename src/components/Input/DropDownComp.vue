@@ -42,6 +42,7 @@ select {
   margin-left: 1vw;
   color:  black;
   font-weight: 600;
+  cursor: pointer;
 
   /* reset */
 

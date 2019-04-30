@@ -10,13 +10,13 @@ export default {
   name: 'InputUrl',
   data() {
     return {
-      url: 'https://us-central1-ria-server-b1103.cloudfunctions.net/authenticate',
+      url: '',
     };
   },
 
   methods: {
     sendUrl() {
-      this.$emit('sendUrl', this.url);
+        this.$emit('sendUrl', this.url);
     },
   },
 };
@@ -25,7 +25,7 @@ export default {
 <!-- Add 'scoped' attribute to limit CSS to this component only -->
 <style scoped>
 input{
-  width: 100%;
+  width: 85%;
   border-radius: 5px;
   min-height: 30px;
 }

@@ -36,7 +36,7 @@ export default {
         }
       ],
       selected: "post",
-      url: 'https://us-central1-ria-server-b1103.cloudfunctions.net/authenticate',
+      url: '',
       textArea: "",
       response: "",
       statusCode: ""
@@ -98,52 +98,53 @@ axios.interceptors.response.use((response) => response, (error) => {
         value: this.statusCode,
       });
     },
-    async send() {
-      try {
-        if ((this.selected == "post") || (this.selected == "put") || (this.selected == "patch")) {
-          axios[this.selected](this.url, JSON.parse(this.textArea))
-            .then(r => {
-              console.log(r)
-              if (r.data.result){
-                this.response = JSON.stringify(r.data.result).replace(/"/g, " ");
-                this.statusCode = JSON.stringify(r.status);
-                this.listPush();
-              }
-              else {
+    send() {
+      if(this.url != ("" | " ")){
+        try {
+          if ((this.selected == "post") || (this.selected == "put") || (this.selected == "patch")) {
+            axios[this.selected](this.url, JSON.parse(this.textArea))
+              .then(r => {
+                console.log(r)
+                if (r.data.result){
+                  this.response = JSON.stringify(r.data.result).replace(/"/g, " ");
+                  this.statusCode = JSON.stringify(r.status);
+                  this.listPush();
+                }
+                else {
+                  this.response = JSON.stringify(r.data).replace(/"/g, " ");
+                  this.statusCode = JSON.stringify(r.status);
+                  this.listPush();
+                }
+              })
+              .catch(e => this.handleError(e));
+          }
+          else{
+            axios[this.selected](this.url)
+              .then(r => {
                 this.response = JSON.stringify(r.data).replace(/"/g, " ");
                 this.statusCode = JSON.stringify(r.status);
                 this.listPush();
-              }
-            })
-            .catch(e => this.handleError(e));
+              })
+              .catch(e => this.handleError(e));
+          }
+        } catch (e) {
+          this.handleError(e)
         }
-        else{
-          axios[this.selected](this.url)
-            .then(r => {
-              this.response = JSON.stringify(r.data).replace(/"/g, " ");
-              this.statusCode = JSON.stringify(r.status);
-              this.listPush();
-            })
-            .catch(e => this.handleError(e));
-        }
-      } catch (e) {
-        this.handleError(e)
+        this.response = "";
+        this.statusCode = "";
       }
-      this.response = "";
-      this.statusCode = "";
     }
   }
 };
 
 /*
-https://us-central1-ria-server-b1103.cloudfunctions.net/authenticate
+https://jsonplaceholder.typicode.com/posts
 {
-"password": "letmein",
-"email": "test@codeyard.eu"
+"id": 1,
+"title": "foo",
+"body": "bar",
+"userId": 1
 }
-console.log(r);
-console.log(this.response);
-console.log(this.statusCode);
 */
 </script>
 

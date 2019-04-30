@@ -21,5 +21,6 @@ input {
   padding: 3px;
   padding-right: 10px;
   padding-left: 10px;
+  cursor: pointer;
 }
 </style>
