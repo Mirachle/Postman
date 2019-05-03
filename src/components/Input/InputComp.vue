@@ -22,6 +22,11 @@ export default {
     'input-row': InputRow,
     'text-area': TextArea,
   },
+
+  computed: {
+
+  },
+
   methods: {
     selected(value) {
       if ((value === 'get') || value === 'delete') {

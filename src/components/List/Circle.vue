@@ -1,5 +1,5 @@
 <template>
-        <span :class="[spannClassName,success==1?'suc':'fail']"></span>
+        <span @click="onDelete" :class="[spannClassName,success==1?'suc':'fail']"></span>
 </template>
 
 <script>
@@ -10,7 +10,12 @@ export default {
       spannClassName: 'gray-circle',
     };
   },
-  props: ['success'],
+  props: ['success', 'index'],
+  methods: {
+    onDelete(){
+      this.$store.commit('onDelete', this.index)
+    }
+  }
 };
 </script>
 

@@ -1,7 +1,7 @@
 <template>
 <div class="row">
     <div v-for="(item,index) in list" :key="index" style="width:100%;">
-       <item-comp :item="item" />
+       <item-comp :item="item" :index="index"/>
     </div>
 </div>
 </template>

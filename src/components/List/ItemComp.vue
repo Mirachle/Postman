@@ -2,7 +2,7 @@
   <div>
     <div :class="['row', allTime, this.isShowResult==1? 'in-cont':'in-cont-select']">
       <div :class="['col-12', 'col-md-1']" :id="itemCircleId">
-        <circle-icon :success="isSuccess"/>
+        <circle-icon :index="index" :success="isSuccess"/>
       </div>
       <div :class="['col-12', 'col-md-2']" :id="itemTypeId">{{this.item.type}}</div>
       <div :class="['col-12' ,'col-md-5']" :id="itemUrlTextId">{{this.item.urlText}}</div>
@@ -24,7 +24,7 @@ import Shape from '@/components/List/Shape';
 /* eslint-disable */
 export default {
   name: 'ItemComp',
-  props: ['item'],
+  props: ['item', 'index'],
   components: {
     'shape-icon': Shape,
     'circle-icon': Circle,

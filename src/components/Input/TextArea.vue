@@ -1,6 +1,7 @@
 <template>
   <div>
-    <textarea v-model="value" @input="areaChanged" placeholder='{
+    <textarea v-model="value" @input="areaChanged" :class="color"
+    placeholder='{                                               JSON like this.
   "password": "letmein",
   "email": "test@codeyard.eu"
   }'/>
@@ -32,6 +33,15 @@ export default {
       this.$emit('areaChanged', this.value)
     }
   },
+  computed: {
+    color(){
+     // if(this.areaValue != ("" | " ")){
+        return "";
+     // } else {
+     //   return "red-color"
+    //  }
+    }
+  },
 };
 </script>
 
@@ -42,5 +52,10 @@ textarea{
   min-height: 100px;
   border-radius: 5px;
   margin-top: 10px;
+}
+
+.red-color{
+  border-color: rgb(255, 147, 147);
+  background-color: rgb(255, 225, 225);
 }
 </style>

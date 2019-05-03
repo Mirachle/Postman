@@ -1,6 +1,6 @@
 <template>
   <div>
-    <input v-model="value" type="text" placeholder="Please enter url." @input="urlChanged">
+    <input v-model="value" type="text" placeholder="Please enter url." @input="urlChanged" :class="color">
   </div>
 </template>
 
@@ -16,7 +16,8 @@ export default {
   },
   data() {
     return {
-      value: undefined
+      value: undefined,
+      reg: /^((https?|ftp|smtp):\/\/)?(www.)?[a-z0-9]+(\.[a-z]{2,}){1,3}(#?\/?[a-zA-Z0-9#]+)*\/?(\?[a-zA-Z0-9-_]+=[a-zA-Z0-9-%]+&?)?$/
     };
   },
   watch:{
@@ -29,6 +30,15 @@ export default {
       this.$emit('urlChanged', this.value)
     },
   },
+  computed: {
+    color(){
+      if (this.reg.test(this.url)){
+        return "";
+      } else {
+        return "red-color";
+      }
+    }
+  },
 };
 </script>
 
@@ -38,6 +48,15 @@ input{
   width: 85%;
   border-radius: 5px;
   min-height: 30px;
+}
+
+.red-color{
+  border-color: rgb(255, 147, 147);
+  background-color: rgb(255, 225, 225);
+}
+.blue-color{
+  border-color: rgb(158, 147, 255);
+  background-color: rgb(225, 227, 255);
 }
 
 @media only screen and (max-width: 767.9px) {
