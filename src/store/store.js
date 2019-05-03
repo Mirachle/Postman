@@ -9,7 +9,7 @@ Vue.use(Vuex);
 export const store = new Vuex.Store({
   state: {
     list: [],
-    sendList: ['valami', 'valami más', 'megint más', 'más'],
+    sendList: []
   },
 
   getters: {
@@ -30,6 +30,14 @@ export const store = new Vuex.Store({
         value: statusCode,
       })
     },
+    sendListPush(state, [name,selected, url, body]){
+      state.sendList.push({
+        name: name,
+        type: selected,
+        urlText: url,
+        bodyValue: body
+      })
+    },
     onDelete(state, index){
       state.list.splice(index, 1)
     }
@@ -38,6 +46,12 @@ export const store = new Vuex.Store({
   actions: {
     onDelete(context, index){
       context.commit('onDelete', index);
+    },
+    postPutPatchSave(context, [name,selected,url,textArea]){
+      context.commit('sendListPush', [name,selected,url,textArea])
+    },
+    getDeleteSave(context,[name,selected,url]){
+      context.commit('sendListPush',[name,selected,url])
     },
     postPutPatchPush(context, [selected, url, textArea]){
       axios[selected](url, JSON.parse(textArea))

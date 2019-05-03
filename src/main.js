@@ -6,6 +6,7 @@ import Vue from 'vue';
 import App from './App';
 import router from './router';
 import {store} from './store/store';
+import swal from 'sweetalert';
 
 Vue.use(VueAxios, axios);
 Vue.config.productionTip = false;

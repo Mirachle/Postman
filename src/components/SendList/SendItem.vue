@@ -1,6 +1,6 @@
 <template>
   <div class="row">
-    <input @click="$emit('clicked')" type="button" :value="item">
+    <input @click="$emit('clicked', index)" type="button" :value="item.name">
     {{this.inputValue}}
   </div>
 </template>

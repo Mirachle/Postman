@@ -1,8 +1,9 @@
 <template>
   <div class="row">
     <dropdown-comp class="col-md-2 col-12 col-sm-4 center" @selected="selectedChange"/>
-    <input-url class="col-md-9 col-12 col-sm-8 center" :url="url" @urlChanged="urlChanged"/>
-    <button-comp class="col-md-1 col-12 col-sm-12 center" @send="send"/>
+    <input-url class="col-md-8 col-12 col-sm-8 center" :url="url" @urlChanged="urlChanged"/>
+    <button-comp class="col-md-1 col-12 col-sm-12 center" @send="send" :buttonValue="sendButtonValue"/>
+    <button-comp  class="col-md-1 col-12 col-sm-12 center" @save="save" :buttonValue="saveButtonValue"/>
   </div>
 </template>
 
@@ -10,9 +11,11 @@
 import DropDownComp from '@/components/Input/DropDownComp';
 import InputUrl from '@/components/Input/InputUrl';
 import ButtonComp from '@/components/Input/ButtonComp';
+import { mapGetters } from 'vuex';
 
 export default {
   name: 'InputRow',
+  props: ['index'],
   components: {
     'dropdown-comp': DropDownComp,
     'input-url': InputUrl,
@@ -21,8 +24,20 @@ export default {
   data(){
     return {
       url: '',
-      method: 'post'
+      method: 'post',
+      sendButtonValue: 'SEND',
+      saveButtonValue: 'SAVE'
     }
+  },
+  watch:{
+   index(newValue,oldValue){
+      this.url = this.sendList[newValue].urlText;
+   }
+  },
+  computed: {
+    ...mapGetters({
+      sendList: 'getSendList'
+    })
   },
   methods: {
     urlChanged(url){
@@ -38,6 +53,12 @@ export default {
         method: this.method
       });
       this.url='';
+    },
+    save(){
+      this.$emit('save', {
+        url: this.url,
+        method: this.method
+      });
     }
   },
 };

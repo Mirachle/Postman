@@ -1,7 +1,7 @@
 <template>
 <div>
-    <div @clicked="$emit('clicked')" v-for="(item,index) in list" :key="index" style="width:100%;">
-       <send-item :item="item" :index="index"/>
+    <div v-for="(item,index) in list" :key="index" style="width:100%;">
+       <send-item @clicked="$emit('clicked', index)" :item="item" :index="index"/>
     </div>
 </div>
 </template>

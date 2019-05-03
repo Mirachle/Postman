@@ -1,10 +1,10 @@
 <template>
   <div class="row">
     <div class="col-3 line">
-      <send-list @click="clicked" :list="sendList"/>
+      <send-list @clicked="clicked" :list="sendList"/>
     </div>
     <div class="col-9">
-      <input-comp @send="send"/>
+      <input-comp :index="itemIndex" @send="send" @save="save"/>
       <list-comp :list="list"/>
     </div>
   </div>
@@ -15,9 +15,15 @@ import InputComp from "@/components/Input/InputComp";
 import ListComp from "@/components/List/ListComp";
 import SendList from "@/components/SendList/SendList";
 import {mapActions, mapGetters} from 'vuex';
+import Swal from 'sweetalert2'
 
 export default {
   name: "MainPage",
+  data() {
+    return {
+      itemIndex: undefined,
+      };
+  },
 
   components: {
     "input-comp": InputComp,
@@ -41,7 +47,9 @@ export default {
       'postPutPatchPush',
       'getDeletePush',
       'handleError',
-      'originError'
+      'originError',
+      'postPutPatchSave',
+      'getDeleteSave'
     ]),
     send(data) {
       var url = JSON.stringify(data.url).replace(/"/g, "");
@@ -60,6 +68,27 @@ export default {
         }
       }
     },
+    save(data){
+      var url = data.url;
+      var selected = data.method;
+      var textArea = data.text;
+      Swal.fire({
+        title: 'Saved name',
+        input: 'text',
+        inputPlaceholder: 'Enter here',
+      }).then((result) => {
+        if (result.value) {
+          if ((selected == "post") || (selected == "put") || (selected == "patch")) {
+            this.postPutPatchSave([(result.value),selected, url, textArea])
+          }else{
+            this.postPutPatchSave([(result.value),selected, url])
+          }
+        }
+      })
+    },
+    clicked(index){
+      this.itemIndex = index;
+    }
   }
 };
 
