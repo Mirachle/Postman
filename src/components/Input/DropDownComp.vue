@@ -11,14 +11,27 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
 
 export default {
   name: 'DropDownComp',
+  props:['index'],
   data() {
     return {
       selected: 'post',
     };
   },
+  computed: {
+    ...mapGetters({
+      sendList: 'getSendList'
+      })
+  },
+   watch:{
+   index(newValue,oldValue){
+     this.selected = this.sendList[newValue].type;
+     this.$emit('selected', this.selected);
+   }
+   },
   methods: {
     optionChange() {
       this.$emit('selected', this.selected);

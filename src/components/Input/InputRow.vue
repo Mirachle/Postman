@@ -1,9 +1,11 @@
 <template>
   <div class="row">
-    <dropdown-comp class="col-md-2 col-12 col-sm-4 center" @selected="selectedChange"/>
+    <dropdown-comp class="col-md-2 col-12 col-sm-4 center" @selected="selectedChange" :index="index"/>
     <input-url class="col-md-8 col-12 col-sm-8 center" :url="url" @urlChanged="urlChanged"/>
-    <button-comp class="col-md-1 col-12 col-sm-12 center" @send="send" :buttonValue="sendButtonValue"/>
-    <button-comp  class="col-md-1 col-12 col-sm-12 center" @save="save" :buttonValue="saveButtonValue"/>
+    <div id="button-container" class="col-md-2 col-12 col-sm-12 center">
+    <button-comp id="send-button" @send="send" :buttonValue="sendButtonValue"/>
+    <button-comp  @save="save" :buttonValue="saveButtonValue"/>
+    </div>
   </div>
 </template>
 
@@ -74,6 +76,20 @@ export default {
 .center{
   text-align: center;
 }
+
+@media only screen and (min-width: 768px) {
+  #button-container{
+   padding:0;
+   display:flex;
+   flex-direction:row;
+   justify-content: space-between
+  }
+
+  #send-button{
+    margin-right: 5px;
+  }
+
+  }
 
 @media only screen and (max-width: 767.9px) {
     .row{
