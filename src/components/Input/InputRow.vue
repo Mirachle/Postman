@@ -1,8 +1,9 @@
 <template>
   <div class="row">
     <dropdown-comp class="col-md-2 col-12 col-sm-4 center" @selected="selectedChange"/>
-    <input-url class="col-md-9 col-12 col-sm-8 center" :url="url" @urlChanged="urlChanged"/>
-    <button-comp class="col-md-1 col-12 col-sm-12 center" @send="send"/>
+    <input-url class="col-md-8 col-12 col-sm-8 center" :url="url" @urlChanged="urlChanged"/>
+    <button-comp class="col-md-1 col-12 col-sm-12 center" @send="send" :buttonValue="sendButtonValue"/>
+    <button-comp  class="col-md-1 col-12 col-sm-12 center" @save="save" :buttonValue="saveButtonValue"/>
   </div>
 </template>
 
@@ -21,7 +22,9 @@ export default {
   data(){
     return {
       url: '',
-      method: 'post'
+      method: 'post',
+      sendButtonValue: 'SEND',
+      saveButtonValue: 'SAVE'
     }
   },
   methods: {
@@ -34,6 +37,13 @@ export default {
     },
     send(){
       this.$emit('send', {
+        url: this.url,
+        method: this.method
+      });
+      this.url='';
+    },
+    save(){
+      this.$emit('save', {
         url: this.url,
         method: this.method
       });

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <input @click="$emit('send')" type="button" value="SEND">
+    <input @click="itemClicked" type="button" :value="buttonValue">
   </div>
 </template>
 
@@ -8,6 +8,17 @@
 
 export default {
   name: 'ButtonComp',
+  props:['buttonValue'],
+  methods:{
+    itemClicked(){
+      alert(this.buttonValue)
+      if(this.buttonValue=='SEND'){
+        this.$emit('send');
+      }else{
+        this.$emit('save');
+      }
+    }
+  }
 };
 </script>
 

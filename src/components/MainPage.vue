@@ -1,7 +1,17 @@
 <template>
-  <div class="col-10 offset-1">
-    <input-comp @send="send"/>
-    <list-comp :list="list"/>
+  <div>
+    <div class="col-3">
+     <ul>
+       <li v-for="(item,index) in requestsList" :key="index">
+         <span>{{item.name}}</span>  
+         <span>{{item.bodyValue}}</span>
+       </li>
+     </ul>
+    </div>
+    <div class="col-9 offset-3">
+      <input-comp @send="send" @save="save"/>
+      <list-comp :list="list"/>
+    </div>
   </div>
 </template>
 
@@ -15,7 +25,7 @@ export default {
 
   components: {
     "input-comp": InputComp,
-    "list-comp": ListComp
+    "list-comp": ListComp,
   },
 
   created(){
@@ -24,7 +34,9 @@ export default {
 
   computed: {
     ...mapGetters({
-      list: 'getList'
+      list: 'getList',
+      requestsList: 'getRequestList'
+
       })
   },
 
@@ -33,7 +45,9 @@ export default {
       'postPutPatchPush',
       'getDeletePush',
       'handleError',
-      'originError'
+      'originError',
+      'postPutPatchSave',
+      'getDeleteSave'
     ]),
     send(data) {
       var url = JSON.stringify(data.url).replace(/"/g, "");
@@ -52,6 +66,19 @@ export default {
         }
       }
     },
+    save(data){
+      var url = data.url;
+      var selected = data.method;
+      var textArea = data.text;
+     swal("Write something here:", { content: 'input', }) .then((value) => {
+       if ((selected == "post") || (selected == "put") || (selected == "patch")) {
+            this.postPutPatchSave([value,selected, url, textArea])
+          }else{
+            this.postPutPatchSave([value,selected, url])
+          }
+     });
+    }
+    
   }
 };
 
@@ -65,4 +92,3 @@ https://jsonplaceholder.typicode.com/posts
 }
 */
 </script>
-
