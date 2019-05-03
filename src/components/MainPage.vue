@@ -1,13 +1,19 @@
 <template>
-  <div class="col-10 offset-1">
-    <input-comp @send="send"/>
-    <list-comp :list="list"/>
+  <div class="row">
+    <div class="col-3 line">
+      <send-list @click="clicked" :list="sendList"/>
+    </div>
+    <div class="col-9">
+      <input-comp @send="send"/>
+      <list-comp :list="list"/>
+    </div>
   </div>
 </template>
 
 <script>
 import InputComp from "@/components/Input/InputComp";
 import ListComp from "@/components/List/ListComp";
+import SendList from "@/components/SendList/SendList";
 import {mapActions, mapGetters} from 'vuex';
 
 export default {
@@ -15,7 +21,8 @@ export default {
 
   components: {
     "input-comp": InputComp,
-    "list-comp": ListComp
+    "list-comp": ListComp,
+    "send-list": SendList,
   },
 
   created(){
@@ -24,7 +31,8 @@ export default {
 
   computed: {
     ...mapGetters({
-      list: 'getList'
+      list: 'getList',
+      sendList: 'getSendList'
       })
   },
 
@@ -65,4 +73,14 @@ https://jsonplaceholder.typicode.com/posts
 }
 */
 </script>
+
+<style scoped>
+.line{
+  border-style: solid;
+  border-width: 0px 3px 0px 0px;
+  border-color: #1111111a;
+  right: 15px;
+}
+</style>
+
 

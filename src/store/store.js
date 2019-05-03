@@ -9,11 +9,15 @@ Vue.use(Vuex);
 export const store = new Vuex.Store({
   state: {
     list: [],
+    sendList: ['valami', 'valami más', 'megint más', 'más'],
   },
 
   getters: {
     getList(state){
       return state.list;
+    },
+    getSendList(state){
+      return state.sendList;
     }
   },
 
