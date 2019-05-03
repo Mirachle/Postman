@@ -1,8 +1,9 @@
 <template>
-        <span @click="onDelete" :class="[spannClassName,success==1?'suc':'fail']"></span>
+        <span @click="onDelete(index)" :class="[spannClassName,success==1?'suc':'fail']"></span>
 </template>
 
 <script>
+import { mapActions } from 'vuex';
 export default {
   name: 'GrayCircle',
   data() {
@@ -12,9 +13,9 @@ export default {
   },
   props: ['success', 'index'],
   methods: {
-    onDelete(){
-      this.$store.commit('onDelete', this.index)
-    }
+    ...mapActions([
+      'onDelete'
+    ])
   }
 };
 </script>

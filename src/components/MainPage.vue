@@ -8,47 +8,47 @@
 <script>
 import InputComp from "@/components/Input/InputComp";
 import ListComp from "@/components/List/ListComp";
+import {mapActions, mapGetters} from 'vuex';
 
 export default {
   name: "MainPage",
-  data() {
-    return {
-      selected: "post",
-      url: '',
-      textArea: "",
-    };
-  },
-
-created(){
-  this.$store.dispatch('originError');
-},
 
   components: {
     "input-comp": InputComp,
     "list-comp": ListComp
   },
 
+  created(){
+    this.originError();
+  },
+
   computed: {
-    list(){
-      return this.$store.state.list
-    }
+    ...mapGetters({
+      list: 'getList'
+      })
   },
 
   methods: {
+    ...mapActions([
+      'postPutPatchPush',
+      'getDeletePush',
+      'handleError',
+      'originError'
+    ]),
     send(data) {
-      this.url = JSON.stringify(data.url).replace(/"/g, "");
-      this.selected = JSON.stringify(data.method).replace(/"/g, "");
-      this.textArea = data.text;
-      if(this.url != ("" | " ")){
+      var url = JSON.stringify(data.url).replace(/"/g, "");
+      var selected = JSON.stringify(data.method).replace(/"/g, "");
+      var textArea = data.text;
+      if(url != ("" | " ")){
         try {
-          if ((this.selected == "post") || (this.selected == "put") || (this.selected == "patch")) {
-            this.$store.dispatch('postPutPatchPush', [this.selected, this.url, this.textArea])
+          if ((selected == "post") || (selected == "put") || (selected == "patch")) {
+            this.postPutPatchPush([selected, url, textArea])
           }
           else{
-            this.$store.dispatch('getDeletePush', [this.selected, this.url])
+            this.getDeletePush([selected, url])
           }
         } catch (e) {
-          this.$store.dispatch('handleError', [e, this.selected, this.url])
+          this.handleError([e, selected, url])
         }
       }
     },

@@ -10,6 +10,13 @@ export const store = new Vuex.Store({
   state: {
     list: [],
   },
+
+  getters: {
+    getList(state){
+      return state.list;
+    }
+  },
+
   mutations: {
     listPush(state, [selected, url, response, statusCode]){
       state.list.push({
@@ -23,9 +30,10 @@ export const store = new Vuex.Store({
       state.list.splice(index, 1)
     }
   },
+
   actions: {
-    listPush(context, [selected, url, response, statusCode]){
-      setTimeout(context.commit('listPush', [selected, url, response, statusCode]), 2000)
+    onDelete(context, index){
+      context.commit('onDelete', index);
     },
     postPutPatchPush(context, [selected, url, textArea]){
       axios[selected](url, JSON.parse(textArea))
@@ -43,6 +51,7 @@ export const store = new Vuex.Store({
         context.dispatch('handleError',[e, selected, url])
       });
     },
+
     getDeletePush(context, [selected, url]){
       axios[selected](url)
         .then(r => {
@@ -52,6 +61,7 @@ export const store = new Vuex.Store({
         })
         .catch(e => context.dispatch('handleError',[e, selected, url]));
     },
+
     handleError(context, [e, selected, url]){
         try{
           var response = JSON.stringify(e.response).replace(/"/g, " ");
@@ -68,6 +78,7 @@ export const store = new Vuex.Store({
           }
         }
     },
+
     originError(){
       axios.interceptors.response.use((response) => response, (error) => {
         if (typeof error.response === 'undefined') {
@@ -79,5 +90,6 @@ export const store = new Vuex.Store({
       })
     }
   },
+
   plugins: [createPersistedState()],
 })
