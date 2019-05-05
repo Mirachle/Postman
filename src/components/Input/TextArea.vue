@@ -18,6 +18,9 @@ export default {
       default: ''
     }
   },
+  mounted(){
+    this.value = this.areaValue;
+  },
   data() {
     return {
       value: undefined
@@ -29,7 +32,7 @@ export default {
    }
   },
   methods: {
-    areaChanged() {
+    areaChanged() {   
       this.$emit('areaChanged', this.value)
     }
   },
