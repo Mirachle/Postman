@@ -1,9 +1,9 @@
 <template>
   <div class="row">
-    <div class="col-3 line">
+    <div class="col-md-3 col-12 line">
       <send-list @clicked="clicked" :list="sendList"/>
     </div>
-    <div class="col-9">
+    <div class="col-md-9 col-12">
       <input-comp :index="itemIndex" @send="send" @save="save"/>
       <list-comp :list="list"/>
     </div>
@@ -109,6 +109,15 @@ https://jsonplaceholder.typicode.com/posts
   border-width: 0px 3px 0px 0px;
   border-color: #1111111a;
   right: 15px;
+}
+
+@media (max-width: 767.9px) {
+  .line{
+    border-width: 0px 0px 0px 0px;
+    border-color: #ffffff00;
+    right: 0px;
+    margin-bottom: 10vh;
+  }
 }
 </style>
 

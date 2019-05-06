@@ -2,13 +2,16 @@
   <div>
     <div :class="['row', allTime, this.isShowResult==1? 'in-cont':'in-cont-select']">
       <div :class="['col-12', 'col-md-1']" :id="itemCircleId">
-        <circle-icon :index="index" :success="isSuccess"/>
+        <circle-icon :success="isSuccess"/>
       </div>
       <div :class="['col-12', 'col-md-2']" :id="itemTypeId">{{this.item.type}}</div>
-      <div :class="['col-12' ,'col-md-5']" :id="itemUrlTextId">{{this.item.urlText}}</div>
-      <div :class="['col-12', 'col-md-2']" :id="itemValueId">{{this.item.value}}</div>
-      <div :class="['col-12', 'col-md-2']" :id="itemShapeId">
+      <div :class="['col-12' ,'col-md-6']" :id="itemUrlTextId">{{this.item.urlText}}</div>
+      <div :class="['col-12', 'col-md-1']" :id="itemValueId">{{this.item.value}}</div>
+      <div :class="['col-12', 'col-md-1']" :id="itemShapeId">
         <shape-icon :selected="isShowResult" @clicked="Clicked()"/>
+      </div>
+      <div class="col-md-1 ic-delete">
+       <ic-delete @clicked="onDelete(index)" :r="15"/>
       </div>
     </div>
     <div v-if="this.isShowResult==1? '':'hide'" :class="['row']">
@@ -20,6 +23,8 @@
 <script>
 import Circle from '@/components/List/Circle';
 import Shape from '@/components/List/Shape';
+import IcDelete from "@/components/SendList/IcDelete";
+import { mapActions } from 'vuex';
 
 /* eslint-disable */
 export default {
@@ -28,6 +33,7 @@ export default {
   components: {
     'shape-icon': Shape,
     'circle-icon': Circle,
+    "ic-delete": IcDelete,
   },
   data() {
     return {
@@ -61,6 +67,9 @@ export default {
         this.isShowResult = 1;
       }
     },
+    ...mapActions([
+      'onDelete'
+    ])
   },
 };
 </script>
@@ -111,8 +120,8 @@ export default {
 }
 #item-shape {
   display: flex;
-  align-items: center;
-  justify-content: center;
+  justify-content: right;
+  text-align: right;
 }
 .hide {
   display: none;
@@ -124,4 +133,7 @@ export default {
   align-items: center;
 }
 
+.ic-delete{
+  text-align: right;
+}
 </style>

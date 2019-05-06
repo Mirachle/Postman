@@ -40,12 +40,18 @@ export const store = new Vuex.Store({
     },
     onDelete(state, index){
       state.list.splice(index, 1)
+    },
+    sendListDelete(state, index){
+      state.sendList.splice(index, 1)
     }
   },
 
   actions: {
     onDelete(context, index){
       context.commit('onDelete', index);
+    },
+    sendListDelete(context, index){
+      context.commit('sendListDelete', index);
     },
     postPutPatchSave(context, [name,selected,url,textArea]){
       context.commit('sendListPush', [name,selected,url,textArea])

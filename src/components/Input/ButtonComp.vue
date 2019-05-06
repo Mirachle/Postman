@@ -11,7 +11,6 @@ export default {
   props:['buttonValue'],
   methods:{
     itemClicked(){
-      alert(this.buttonValue)
       if(this.buttonValue=='SEND'){
         this.$emit('send');
       }else{
