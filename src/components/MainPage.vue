@@ -1,10 +1,14 @@
 <template>
   <div class="row">
     <div class="col-md-3 col-12 line">
-      <send-list @clicked="clicked" :list="sendList"/>
+      <button-comp class="line2" buttonValue="Environment" @clicked="showModal = true"/>
+      <transition enter-active-class="fadeIn" leave-active-class="fadeOut">
+        <modal @close="showModal = false" v-if="showModal"/>
+      </transition>
+      <send-list @clicked="clicked" :list="sendList" :activeIndex="activeIndex"/>
     </div>
     <div class="col-md-9 col-12">
-      <input-comp :index="itemIndex" @send="send" @save="save"/>
+      <input-comp @clicked="inputClicked" :activeIndex="activeIndex"/>
       <list-comp :list="list"/>
     </div>
   </div>
@@ -14,6 +18,8 @@
 import InputComp from "@/components/Input/InputComp";
 import ListComp from "@/components/List/ListComp";
 import SendList from "@/components/SendList/SendList";
+import ModalComp from "@/components/ModalComp";
+import ButtonComp from '@/components/Input/ButtonComp';
 import {mapActions, mapGetters} from 'vuex';
 import Swal from 'sweetalert2'
 
@@ -22,6 +28,10 @@ export default {
   data() {
     return {
       itemIndex: undefined,
+      activeIndex: undefined,
+      showModal: false,
+      modalEffect: "",
+      maskEffect: ""
       };
   },
 
@@ -29,6 +39,8 @@ export default {
     "input-comp": InputComp,
     "list-comp": ListComp,
     "send-list": SendList,
+    "modal": ModalComp,
+    'button-comp': ButtonComp,
   },
 
   created(){
@@ -49,7 +61,8 @@ export default {
       'handleError',
       'originError',
       'postPutPatchSave',
-      'getDeleteSave'
+      'getDeleteSave',
+      'postPutPatchSaveAs'
     ]),
     send(data) {
       var url = JSON.stringify(data.url).replace(/"/g, "");
@@ -65,30 +78,89 @@ export default {
           }
         } catch (e) {
           this.handleError([e, selected, url])
+        } finally {
+          this.activeIndex = undefined;
         }
       }
     },
-    save(data){
-      var url = data.url;
-      var selected = data.method;
-      var textArea = data.text;
-      Swal.fire({
-        title: 'Saved name',
-        input: 'text',
-        inputPlaceholder: 'Enter here',
-      }).then((result) => {
-        if (result.value) {
-          if ((selected == "post") || (selected == "put") || (selected == "patch")) {
-            this.postPutPatchSave([(result.value),selected, url, textArea])
-          }else{
-            this.postPutPatchSave([(result.value),selected, url])
+    async save(data){
+      if (this.activeIndex == undefined){
+        var url = data.url;
+        var selected = data.method;
+        var textArea = data.text;
+        Swal.fire({
+          title: 'Saved name',
+          input: 'text',
+          inputPlaceholder: 'Enter here',
+        }).then((result) => {
+          if (result.value) {
+            if ((selected == "post") || (selected == "put") || (selected == "patch")) {
+              this.postPutPatchSave([(result.value),selected, url, textArea])
+            }else{
+              this.postPutPatchSave([(result.value),selected, url])
+            }
           }
-        }
-      })
+        })
+      } else {
+        var url = data.url;
+        var selected = data.method;
+        var textArea = data.text;
+        Swal.fire({
+          title: 'Saved name',
+          input: 'text',
+          inputValue: this.sendList[this.activeIndex].name,
+          inputPlaceholder: 'Enter here',
+        }).then((result) => {
+          if (result.value) {
+            if ((selected == "post") || (selected == "put") || (selected == "patch")) {
+              this.postPutPatchSaveAs([(result.value),selected, url, this.activeIndex, textArea])
+            }else{
+              this.postPutPatchSaveAs([(result.value),selected, url, this.activeIndex])
+            }
+            this.activeIndex = undefined;
+          }
+        })
+      }
     },
+    saveAs(data){
+      if (this.activeIndex != undefined){
+        var url = data.url;
+        var selected = data.method;
+        var textArea = data.text;
+        Swal.fire({
+          title: 'Saved name',
+          input: 'text',
+          inputPlaceholder: 'Enter here',
+        }).then((result) => {
+          if (result.value) {
+            if ((selected == "post") || (selected == "put") || (selected == "patch")) {
+              this.postPutPatchSave([(result.value),selected, url, textArea])
+            }else{
+              this.postPutPatchSave([(result.value),selected, url])
+            }
+            this.activeIndex = undefined;
+          }
+        })
+      }
+    },
+
+    inputClicked(data){
+      if (data.buttonType == 'SEND'){
+        this.send(data);
+      } else if (data.buttonType == 'SAVE'){
+        this.save(data);
+      } else {
+        this.saveAs(data);
+      }
+    },
+
     clicked(index){
-      this.itemIndex = index;
-    }
+      if (this.activeIndex == index) {
+        this.activeIndex = undefined;
+      } else {
+        this.activeIndex = index;
+      }
+    },
   }
 };
 
@@ -104,6 +176,17 @@ https://jsonplaceholder.typicode.com/posts
 </script>
 
 <style scoped>
+.line2{
+  text-align: center;
+  margin-bottom: 10px;
+  border-style: solid;
+  border-width: 0px 0px 3px 0px;
+  border-color: #1111111a;
+  padding-bottom: 15px;
+  margin-bottom: 15px;
+  margin-top: 15px;
+}
+
 .line{
   border-style: solid;
   border-width: 0px 3px 0px 0px;

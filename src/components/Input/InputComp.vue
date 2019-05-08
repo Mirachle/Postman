@@ -1,6 +1,6 @@
 <template>
   <div>
-    <input-row :index="index" @selectedChange="selected" @send="send" @save="save"/>
+    <input-row @selectedChange="selected" @clicked="clicked" :activeIndex="activeIndex"/>
     <text-area v-if="areaVisible" :areaValue="areaValue" @areaChanged="areaChanged"/>
   </div>
 </template>
@@ -12,11 +12,11 @@ import { mapGetters } from "vuex";
 
 export default {
   name: "InputComp",
-  props: ["index"],
+  props: ['activeIndex'],
   data() {
     return {
       areaVisible: true,
-      areaValue: ""
+      areaValue: "",
     };
   },
 
@@ -30,7 +30,7 @@ export default {
     })
   },
   watch: {
-    index(newValue, oldValue) {
+    activeIndex(newValue, oldValue) {
       this.areaValue = this.sendList[newValue].bodyValue;
     }
   },
@@ -46,21 +46,15 @@ export default {
     areaChanged(value) {
       this.areaValue = value;
     },
-    send(data) {
-      this.$emit("send", {
+    clicked(data) {
+      this.$emit("clicked", {
         url: data.url,
         method: data.method,
+        buttonType: data.buttonType,
         text: this.areaValue
       });
       this.areaValue = "";
     },
-    save(data) {
-      this.$emit("save", {
-        url: data.url,
-        method: data.method,
-        text: this.areaValue
-      });
-    }
   }
 };
 </script>

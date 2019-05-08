@@ -1,6 +1,6 @@
 <template>
   <div>
-    <input @click="itemClicked" type="button" :value="buttonValue">
+    <input :disabled="saveAsButton" @click="$emit('clicked', buttonValue)" type="button" :value="buttonValue">
   </div>
 </template>
 
@@ -8,23 +8,24 @@
 
 export default {
   name: 'ButtonComp',
-  props:['buttonValue'],
-  methods:{
-    itemClicked(){
-      if(this.buttonValue=='SEND'){
-        this.$emit('send');
-      }else{
-        this.$emit('save');
+  props:['buttonValue', 'active'],
+  computed: {
+    saveAsButton(){
+      if((this.buttonValue == 'SAVE AS') && (undefined == this.active)){
+        return true;
       }
-    }
-  }
+      else {
+        return false;
+      }
+    },
+  },
 };
 </script>
 
 <!-- Add 'scoped' attribute to limit CSS to this component only -->
 <style scoped>
 input {
-  border: 0px;
+  border-width: 0px;
   border-radius: 5px;
   background-color: #1111111a;
   font-weight: 600;

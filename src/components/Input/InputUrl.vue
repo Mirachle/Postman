@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="osztaly">
     <input v-model="value" type="text" placeholder="Please enter url." @input="urlChanged" :class="color">
   </div>
 </template>
@@ -48,6 +48,13 @@ input{
   width: 85%;
   border-radius: 5px;
   min-height: 30px;
+}
+
+.osztaly{
+  margin-right: 0px;
+  padding-right: 0px;
+  padding-left: 0px;
+  margin-left: 0px;
 }
 
 .red-color{

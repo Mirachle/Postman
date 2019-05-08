@@ -9,7 +9,8 @@ Vue.use(Vuex);
 export const store = new Vuex.Store({
   state: {
     list: [],
-    sendList: []
+    sendList: [],
+    environmentList: [],
   },
 
   getters: {
@@ -18,6 +19,9 @@ export const store = new Vuex.Store({
     },
     getSendList(state){
       return state.sendList;
+    },
+    getEnvironmentList(state){
+      return state.environmentList;
     }
   },
 
@@ -43,10 +47,34 @@ export const store = new Vuex.Store({
     },
     sendListDelete(state, index){
       state.sendList.splice(index, 1)
+    },
+    sendListSaveAs(state, [name,selected, url, index, body]){
+      state.sendList[index].name = name,
+      state.sendList[index].type = selected,
+      state.sendList[index].urlText = url,
+      state.sendList[index].bodyValue = body
+    },
+    environmentListPush(state, [key, value]){
+      state.environmentList.push({
+        key: key,
+        value: value,
+      })
+    },
+    environmentListSave(state, list) {
+      state.environmentList = list;
+    },
+    environmentListDelete(state, index){
+      state.environmentList.splice(index, 1)
     }
   },
 
   actions: {
+    environmentListPush(context, [key, value]){
+      context.commit('environmentListPush',[key, value])
+    },
+    environmentListDelete(context, index){
+      context.commit('environmentListDelete', index);
+    },
     onDelete(context, index){
       context.commit('onDelete', index);
     },
@@ -58,6 +86,9 @@ export const store = new Vuex.Store({
     },
     getDeleteSave(context,[name,selected,url]){
       context.commit('sendListPush',[name,selected,url])
+    },
+    postPutPatchSaveAs(context, [name,selected,url,index,textArea]){
+      context.commit('sendListSaveAs', [name,selected,url,index,textArea])
     },
     postPutPatchPush(context, [selected, url, textArea]){
       axios[selected](url, JSON.parse(textArea))

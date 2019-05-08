@@ -1,8 +1,8 @@
 <template>
 <div>
-    <div v-for="(item,index) in list" :key="index" style="width:100%;">
-       <send-item @clicked="$emit('clicked', index)" :item="item" :index="index"/>
-    </div>
+  <div v-for="(item,index) in list" :key="index" style="width:100%;">
+    <send-item @clicked="$emit('clicked', index)" :item="item" :index="index" :activeIndex="activeIndex"/>
+  </div>
 </div>
 </template>
 
@@ -11,7 +11,7 @@ import SendItem from '@/components/SendList/SendItem';
 
 export default {
   name: 'SendList',
-  props: ['list'],
+  props: ['list', 'activeIndex'],
   components: {
     'send-item': SendItem,
   },

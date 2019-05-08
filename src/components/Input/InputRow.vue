@@ -1,10 +1,11 @@
 <template>
   <div class="row">
-    <dropdown-comp class="col-md-2 col-12 col-sm-4 center" @selected="selectedChange" :index="index"/>
+    <dropdown-comp class="col-md-2 col-12 col-sm-4 center" @selected="selectedChange" :index="activeIndex"/>
     <input-url class="col-md-8 col-12 col-sm-8 center" :url="url" @urlChanged="urlChanged"/>
     <div id="button-container" class="col-md-2 col-12 col-sm-12 center">
-    <button-comp id="send-button" @send="send" :buttonValue="sendButtonValue"/>
-    <button-comp  @save="save" :buttonValue="saveButtonValue"/>
+    <button-comp id="button" @clicked="clicked" :buttonValue="sendButtonValue"/>
+    <button-comp id="button" @clicked="clicked" :buttonValue="saveButtonValue"/>
+    <button-comp id="button" @clicked="clicked" :buttonValue="saveAsButtonValue" :active="activeIndex"/>
     </div>
   </div>
 </template>
@@ -17,7 +18,7 @@ import { mapGetters } from 'vuex';
 
 export default {
   name: 'InputRow',
-  props: ['index'],
+  props: ['activeIndex'],
   components: {
     'dropdown-comp': DropDownComp,
     'input-url': InputUrl,
@@ -28,11 +29,12 @@ export default {
       url: '',
       method: 'post',
       sendButtonValue: 'SEND',
-      saveButtonValue: 'SAVE'
+      saveButtonValue: 'SAVE',
+      saveAsButtonValue: 'SAVE AS'
     }
   },
   watch:{
-   index(newValue,oldValue){
+   activeIndex(newValue,oldValue){
       this.url = this.sendList[newValue].urlText;
    }
   },
@@ -49,19 +51,14 @@ export default {
       this.$emit('selectedChange', value);
       this.method = value;
     },
-    send(){
-      this.$emit('send', {
+    clicked(value){
+      this.$emit('clicked', {
         url: this.url,
-        method: this.method
+        method: this.method,
+        buttonType: value
       });
       this.url='';
     },
-    save(){
-      this.$emit('save', {
-        url: this.url,
-        method: this.method
-      });
-    }
   },
 };
 </script>
@@ -82,10 +79,11 @@ export default {
    padding:0;
    display:flex;
    flex-direction:row;
-   justify-content: space-between
+   justify-content: space-between;
+   margin-left: -2vw;
   }
 
-  #send-button{
+  #button{
     margin-right: 5px;
   }
 

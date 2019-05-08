@@ -1,6 +1,6 @@
 <template>
   <div class="row">
-    <input @click="$emit('clicked', index)" type="button" :value="item.name">
+    <input :class="{'color': index == activeIndex}" @click="$emit('clicked', index)" type="button" :value="item.name">
     <ic-delete @clicked="sendListDelete(index)" :r="30" class="ic-delete"/>
   </div>
 </template>
@@ -11,15 +11,15 @@ import { mapActions } from 'vuex';
 
 export default {
   name: 'SendItem',
-  props: ['item', 'index'],
+  props: ['item', 'index', 'activeIndex'],
   components: {
     "ic-delete": IcDelete,
   },
   methods: {
     ...mapActions([
       'sendListDelete'
-    ])
-  }
+    ]),
+  },
 };
 </script>
 
@@ -40,6 +40,11 @@ input {
   overflow: hidden;
   text-overflow: ellipsis;
 }
+
+.color{
+  background-color: #1111112f;
+}
+
 .row{
 
   border: 0px;
