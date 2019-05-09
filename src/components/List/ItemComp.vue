@@ -46,6 +46,7 @@ export default {
       itemResultId: 'item-result',
       isSuccess: 0,
       effectName: 'fadeInDown',
+      
     };
   },
   computed: {
@@ -136,4 +137,10 @@ export default {
 .ic-delete{
   text-align: right;
 }
+@media only screen and (max-width: 767.9px) {
+    .ic-delete{
+      display: flex;
+      justify-content: center;
+    }
+  }
 </style>

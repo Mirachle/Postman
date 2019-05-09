@@ -31,4 +31,10 @@ export default {
 .fail{
     background: #ff7e7e;
 }
+
+@media only screen and (max-width: 767.9px) {
+    span{
+      margin-top: 2%;
+    }
+  }
 </style>

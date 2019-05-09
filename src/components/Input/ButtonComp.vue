@@ -1,24 +1,28 @@
 <template>
   <div>
-    <input :disabled="saveAsButton" @click="$emit('clicked', buttonValue)" type="button" :value="buttonValue">
+    <input
+      :class="[ !saveAsButton ? 'cursor-enable' : 'cursor-disable']"
+      :disabled="saveAsButton"
+      @click="$emit('clicked', buttonValue)"
+      type="button"
+      :value="buttonValue"
+    >
   </div>
 </template>
 
 <script>
-
 export default {
-  name: 'ButtonComp',
-  props:['buttonValue', 'active'],
+  name: "ButtonComp",
+  props: ["buttonValue", "active"],
   computed: {
-    saveAsButton(){
-      if((this.buttonValue == 'SAVE AS') && (undefined == this.active)){
+    saveAsButton() {
+      if (this.buttonValue == "SAVE AS" && undefined == this.active) {
         return true;
-      }
-      else {
+      } else {
         return false;
       }
-    },
-  },
+    }
+  }
 };
 </script>
 
@@ -32,14 +36,20 @@ input {
   padding: 3px;
   padding-right: 10px;
   padding-left: 10px;
+}
+
+.cursor-enable{
   cursor: pointer;
 }
 
-@media only screen and (max-width: 767.9px) {
-    input{
-      width: 80%;
-      margin-top: 10px;
-    }
-  }
+.cursor-disable{
+  cursor: no-drop;
+}
 
+@media only screen and (max-width: 767.9px) {
+  input {
+    width: 80%;
+    margin-top: 10px;
+  }
+}
 </style>

@@ -42,6 +42,12 @@ export const store = new Vuex.Store({
         bodyValue: body
       })
     },
+    environmentListPush(state, [key, value]){
+      state.environmentList.push({
+        key: key,
+        value: value
+      })
+    },
     onDelete(state, index){
       state.list.splice(index, 1)
     },
@@ -54,12 +60,7 @@ export const store = new Vuex.Store({
       state.sendList[index].urlText = url,
       state.sendList[index].bodyValue = body
     },
-    environmentListPush(state, [key, value]){
-      state.environmentList.push({
-        key: key,
-        value: value,
-      })
-    },
+
     environmentListSave(state, list) {
       state.environmentList = list;
     },

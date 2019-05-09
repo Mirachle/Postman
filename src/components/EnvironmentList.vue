@@ -1,10 +1,10 @@
 <template>
   <div class="row NemMiraFuraOsztalya">
     <div class="col-5 input">
-      <input v-model="key" @input="keyChanged" id="in">
+      <input v-model="item.key" @input="keyChanged" id="in">
     </div>
     <div class="col-6 input">
-      <input v-model="value" @input="valueChanged" id="in">
+      <input v-model="item.value" @input="valueChanged" id="in">
     </div>
     <div id="delicon" class="col-1 input">
       <ic-delete class="ic-delete" :r="25" @clicked="$emit('clicked')"/>
@@ -14,45 +14,45 @@
 
 <script>
 import IcDelete from "@/components/SendList/IcDelete";
-import { mapActions } from 'vuex';
+import { mapActions, mapGetters } from "vuex";
 
 export default {
-  name: 'EnvironmentList',
-  props:['index'],
-  data(){
-    return{
-      key: '',
-      value: ''
-    }
-  },
+  name: "EnvironmentList",
+  props: ["index", "item"],
+
   components: {
-    "ic-delete": IcDelete,
+    "ic-delete": IcDelete
   },
-  methods:{
-    keyChanged(){
-      this.$emit('keyChanged', this.key, this.index)
+  methods: {
+    keyChanged() {
+      this.$emit("keyChanged", this.key, this.index);
     },
-    valueChanged(){
-      this.$emit('valueChanged', this.value, this.index)
+    valueChanged() {
+      this.$emit("valueChanged", this.value, this.index);
     }
   }
-}
+};
 </script>
 
 <style scoped>
-#delicon { display: none; }
-.NemMiraFuraOsztalya:hover #delicon { display: inline; }
-#delicon:hover { display: inline; }
+#delicon {
+  display: none;
+}
+.NemMiraFuraOsztalya:hover #delicon {
+  display: inline;
+}
+#delicon:hover {
+  display: inline;
+}
 
-
-.row{
+.row {
   padding-bottom: 10px;
 }
 
-#in{
+#in {
   width: 100%;
 }
-.ic-delete{
+.ic-delete {
   position: absolute;
   margin-right: 10px;
   right: 0px;

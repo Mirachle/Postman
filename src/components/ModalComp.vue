@@ -15,7 +15,13 @@
           </div>
         </div>
         <div v-for="(item,index) in currentEnvironmentList" :key="index" style="width:100%;">
-          <environment-list @clicked="removeElementFromCurrentList(index)" @keyChanged="keyChanged" @valueChanged="valueChanged" :index="index"/>
+          <environment-list
+            @clicked="removeElementFromCurrentList(index)"
+            @keyChanged="keyChanged"
+            @valueChanged="valueChanged"
+            :item="item"
+            :index="index"
+          />
         </div>
         <div class="modal-footer" style="border:none">
           <input type="button" @click="modalSave" value="Save">
@@ -29,58 +35,63 @@
 
 <script>
 import EnvironmentList from "@/components/EnvironmentList";
-import { mapGetters, mapActions, mapMutations } from 'vuex';
+import { mapGetters, mapActions, mapMutations } from "vuex";
 
 export default {
   name: "ModalComp",
   props: ["maskEffect", "modalEffect"],
-  data(){
-    return{
-      title: 'Environment',
-      currentEnvironmentList: [],
-    }
+  data() {
+    return {
+      title: "Environment",
+      currentEnvironmentList: []
+    };
   },
   mounted() {
-    console.info(this.list)
-    for(let item in this.list) {
-      this.currentEnvironmentList.push(item)
+    /* 
+     for(var item in this.list) {
+       console.log(item)
+        this.currentEnvironmentList.push(item)
+      }
+    */
+    var i = 0;
+    while (this.list[i] != undefined) {
+      this.currentEnvironmentList.push({
+        key: this.list[i].key,
+        value: this.list[i].value
+      });
+      i++;
     }
   },
   components: {
-    "environment-list": EnvironmentList,
+    "environment-list": EnvironmentList
   },
-  computed:{
+  computed: {
     ...mapGetters({
-      list: 'getEnvironmentList',
-      })
+      list: "getEnvironmentList"
+    })
   },
   methods: {
-    ...mapActions([
-      'environmentListPush',
-    ]),
-    ...mapMutations([
-      'environmentListSave'
-    ]),
+    ...mapActions(["environmentListPush"]),
+    ...mapMutations(["environmentListSave"]),
     modalSave() {
-      console.info(this.currentEnvironmentList)
-      this.environmentListSave(this.currentEnvironmentList)
-      this.$emit('close')
+      this.environmentListSave(this.currentEnvironmentList);
+      this.$emit("close");
     },
     modalAdd() {
       this.currentEnvironmentList.push({
-        key: '',
-        value: '',
-        })
+        key: "",
+        value: ""
+      });
     },
     removeElementFromCurrentList(index) {
-      this.currentEnvironmentList.splice(index, 1)
+      this.currentEnvironmentList.splice(index, 1);
     },
-    keyChanged(key, index){
-      this.currentEnvironmentList[index].key = key
+    keyChanged(key, index) {
+      this.currentEnvironmentList[index].key = key;
     },
-    valueChanged(value, index){
-      this.currentEnvironmentList[index].value = value
-    },
+    valueChanged(value, index) {
+      this.currentEnvironmentList[index].value = value;
+    }
   }
 };
 </script>
@@ -128,9 +139,9 @@ export default {
   padding: 0;
 }
 
-p{
-  margin-top:16px;
-  margin-bottom:16px;
+p {
+  margin-top: 16px;
+  margin-bottom: 16px;
 }
 
 .modal-default-button {
@@ -146,25 +157,25 @@ input[value="Save"] {
   cursor: pointer;
 }
 
-input[value="Save"]:hover{
+input[value="Save"]:hover {
   background-color: white;
   color: rgb(7, 180, 248);
   border: 2px solid rgb(7, 180, 248);
 }
 
 input[value="New Row"] {
-  background-color: #66CDAA;
-  border: 2px solid #66CDAA;
+  background-color: #66cdaa;
+  border: 2px solid #66cdaa;
   color: white;
   transition-duration: 0.4s;
   cursor: pointer;
   border-radius: 5%;
 }
 
-input[value="New Row"]:hover{
+input[value="New Row"]:hover {
   background-color: white;
-  color: #66CDAA;
-  border: 2px solid #66CDAA;
+  color: #66cdaa;
+  border: 2px solid #66cdaa;
 }
 
 input[value="Cancel"] {
