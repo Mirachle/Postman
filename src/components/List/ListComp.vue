@@ -1,9 +1,11 @@
 <template>
-<div class="row">
-    <div v-for="(item,index) in list" :key="index" style="width:100%;">
-       <item-comp class="animated lightSpeedIn" :item="item" :index="index"/>
-    </div>
-</div>
+  <div class="row">
+    <transition-group name="fade" tag="div">
+      <div v-for="(item,index) in list" :key="item" class="list-item">
+        <item-comp :item="item" :index="index"/>
+      </div>
+    </transition-group>
+  </div>
 </template>
 
 <script>
@@ -20,5 +22,23 @@ export default {
 </script>
 
 <style scoped>
+.list-item{
+  width:100%;
+  transition: all 1s;
+}
+.fade-enter{
+  opacity: 0;
+  transform: translateY(30px);
+}
+.fade-leave-to{
+  opacity: 0;
+  transform: translateX(300px);
+}
 
+.fade-enter-active{
+  transition: all 1s;
+}
+.fade-leave-active {
+  position: absolute;
+}
 </style>

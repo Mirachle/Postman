@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div >
     <div :class="['row', allTime, this.isShowResult==1? 'in-cont':'in-cont-select']">
       <div :class="['col-12', 'col-md-1']" :id="itemCircleId">
         <circle-icon :success="isSuccess"/>
@@ -46,7 +46,7 @@ export default {
       itemResultId: 'item-result',
       isSuccess: 0,
       effectName: 'fadeInDown',
-      
+
     };
   },
   computed: {

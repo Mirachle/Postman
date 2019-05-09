@@ -1,13 +1,13 @@
 <template>
   <div class="row">
     <div class="col-md-3 col-12 line">
-      <button-comp class="line2" buttonValue="Environment" @clicked="showModal = true"/>
+      <button-comp :class="[showModal ? blurClass : '', bkClass, 'line2']" buttonValue="Environment" @clicked="showModal = true"/>
       <transition enter-active-class="fadeIn" leave-active-class="fadeOut">
         <modal @close="showModal = false" v-if="showModal"/>
       </transition>
-      <send-list @clicked="clicked" :list="sendList" :activeIndex="activeIndex"/>
+      <send-list :class="[showModal ? blurClass : '', bkClass]" @clicked="clicked" :list="sendList" :activeIndex="activeIndex"/>
     </div>
-    <div class="col-md-9 col-12">
+    <div :class="[showModal ? blurClass : '', bkClass, 'col-md-9 col-12']">
       <input-comp @clicked="inputClicked" :activeIndex="activeIndex"/>
       <list-comp :list="list"/>
     </div>
@@ -31,7 +31,9 @@ export default {
       activeIndex: undefined,
       showModal: false,
       modalEffect: "",
-      maskEffect: ""
+      maskEffect: "",
+      bkClass: 'bk',
+      blurClass: 'blur'
       };
   },
 
@@ -176,6 +178,14 @@ https://jsonplaceholder.typicode.com/posts
 </script>
 
 <style scoped>
+.bk {
+  transition: all 0.1s ease-out;
+}
+
+.blur {
+  filter: blur(1px);
+  opacity: 0.4;
+}
 .line2{
   text-align: center;
   margin-bottom: 10px;

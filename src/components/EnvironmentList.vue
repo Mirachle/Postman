@@ -1,5 +1,5 @@
 <template>
-  <div class="row NemMiraFuraOsztalya">
+  <div class="row item">
     <div class="col-5 input">
       <input v-model="item.key" @input="keyChanged" id="in">
     </div>
@@ -25,10 +25,10 @@ export default {
   },
   methods: {
     keyChanged() {
-      this.$emit("keyChanged", this.key, this.index);
+      this.$emit("keyChanged", this.item.key, this.index);
     },
     valueChanged() {
-      this.$emit("valueChanged", this.value, this.index);
+      this.$emit("valueChanged", this.item.value, this.index);
     }
   }
 };
@@ -38,14 +38,11 @@ export default {
 #delicon {
   display: none;
 }
-.NemMiraFuraOsztalya:hover #delicon {
-  display: inline;
-}
-#delicon:hover {
+.item:hover #delicon {
   display: inline;
 }
 
-.row {
+.item {
   padding-bottom: 10px;
 }
 

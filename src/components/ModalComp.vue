@@ -14,15 +14,17 @@
             <p>Value:</p>
           </div>
         </div>
-        <div v-for="(item,index) in currentEnvironmentList" :key="index" style="width:100%;">
-          <environment-list
-            @clicked="removeElementFromCurrentList(index)"
-            @keyChanged="keyChanged"
-            @valueChanged="valueChanged"
-            :item="item"
-            :index="index"
-          />
-        </div>
+        <transition-group name="listgroup" tag="div">
+          <div v-for="(item,index) in currentEnvironmentList" :key="item" class="list-item">
+            <environment-list
+              @clicked="removeElementFromCurrentList(index)"
+              @keyChanged="keyChanged"
+              @valueChanged="valueChanged"
+              :item="item"
+              :index="index"
+            />
+          </div>
+        </transition-group>
         <div class="modal-footer" style="border:none">
           <input type="button" @click="modalSave" value="Save">
           <input type="button" @click="modalAdd" value="New Row">
@@ -47,12 +49,6 @@ export default {
     };
   },
   mounted() {
-    /* 
-     for(var item in this.list) {
-       console.log(item)
-        this.currentEnvironmentList.push(item)
-      }
-    */
     var i = 0;
     while (this.list[i] != undefined) {
       this.currentEnvironmentList.push({
@@ -124,7 +120,7 @@ export default {
   border-radius: 4px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);
   transition: all 0.3s ease;
-  font-family: Helvetica, Arial, sans-serif;
+  font-family: Helvetica, Arial, sans-serif;position: relative;
 }
 
 .modal-header {
@@ -197,4 +193,26 @@ input[value="Cancel"]:hover {
   margin-top: 5vh;
   text-align: left;
 }
+
+
+.list-item{
+  width:100%;
+  transition: all 1s;
+  display: inline-block;
+}
+.listgroup-enter{
+  opacity: 0;
+  transform: translateY(30px);
+}
+.listgroup-leave-to{
+  opacity: 0;
+}
+
+.listgroup-enter-active{
+  transition: all 1s;
+}
+.listgroup-leave-active {
+  position: absolute;
+}
+
 </style>
