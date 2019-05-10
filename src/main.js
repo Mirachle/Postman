@@ -7,6 +7,7 @@ import App from './App';
 import router from './router';
 import {store} from './store/store';
 import swal from 'sweetalert';
+import Multiselect from 'vue-multiselect'
 
 Vue.use(VueAxios, axios);
 Vue.config.productionTip = false;
