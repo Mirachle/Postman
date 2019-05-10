@@ -2,12 +2,14 @@
   <div>
     <input-row @selectedChange="selected" @clicked="clicked" :activeIndex="activeIndex"/>
     <text-area v-if="areaVisible" :areaValue="areaValue" @areaChanged="areaChanged"/>
+    <head-comp/>
   </div>
 </template>
 
 <script>
 import InputRow from "@/components/Input/InputRow";
 import TextArea from "@/components/Input/TextArea";
+import HeadComp from "@/components/Input/HeadComp";
 import { mapGetters } from "vuex";
 
 export default {
@@ -22,7 +24,8 @@ export default {
 
   components: {
     "input-row": InputRow,
-    "text-area": TextArea
+    "text-area": TextArea,
+    "head-comp": HeadComp,
   },
   computed: {
     ...mapGetters({
