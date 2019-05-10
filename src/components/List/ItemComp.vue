@@ -64,8 +64,8 @@ export default {
         this.effectName = 'fadeInDown';
         this.isShowResult = 0;
       } else {
-        this.effectName = '';
-        this.isShowResult = 1;
+        this.effectName = 'fadeOutUp';
+        setTimeout(() => this.isShowResult = 1, 750);
       }
     },
     ...mapActions([
