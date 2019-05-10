@@ -1,98 +1,108 @@
 <template>
   <div class="row">
-    <dropdown-comp class="col-md-2 col-12 col-sm-4 center" @selected="selectedChange" :index="activeIndex"/>
+    <!--<dropdown-comp class="col-md-2 col-12 col-sm-4 center" @selected="selectedChange" :index="activeIndex"/>-->
+    <dropdown-comp
+      class="col-md-2 col-12 col-sm-4 center"
+      @selected="selectedChange"
+      :index="activeIndex"
+    />
     <input-url class="col-md-8 col-12 col-sm-8 center" :url="url" @urlChanged="urlChanged"/>
     <div id="button-container" class="col-md-2 col-12 col-sm-12 center">
-    <button-comp id="button" @clicked="clicked" :buttonValue="sendButtonValue"/>
-    <button-comp id="button" @clicked="clicked" :buttonValue="saveButtonValue"/>
-    <button-comp id="button" @clicked="clicked" :buttonValue="saveAsButtonValue" :active="activeIndex"/>
+      <button-comp id="button" @clicked="clicked" :buttonValue="sendButtonValue"/>
+      <button-comp id="button" @clicked="clicked" :buttonValue="saveButtonValue"/>
+      <button-comp
+        id="button"
+        @clicked="clicked"
+        :buttonValue="saveAsButtonValue"
+        :active="activeIndex"
+      />
     </div>
   </div>
 </template>
 
 <script>
-import DropDownComp from '@/components/Input/DropDownComp';
-import InputUrl from '@/components/Input/InputUrl';
-import ButtonComp from '@/components/Input/ButtonComp';
-import { mapGetters } from 'vuex';
+/*import DropDownComp from '@/components/Input/DropDownComp';*/
+import InputUrl from "@/components/Input/InputUrl";
+import ButtonComp from "@/components/Input/ButtonComp";
+import DropDownComp from "@/components/Input/DropDownComp";
+import { mapGetters } from "vuex";
 
 export default {
-  name: 'InputRow',
-  props: ['activeIndex'],
+  name: "InputRow",
+  props: ["activeIndex"],
   components: {
-    'dropdown-comp': DropDownComp,
-    'input-url': InputUrl,
-    'button-comp': ButtonComp,
+    "input-url": InputUrl,
+    "button-comp": ButtonComp,
+    "dropdown-comp": DropDownComp
   },
-  data(){
+  data() {
     return {
-      url: '',
-      method: 'post',
-      sendButtonValue: 'SEND',
-      saveButtonValue: 'SAVE',
-      saveAsButtonValue: 'SAVE AS'
-    }
+      url: "",
+      method: "post",
+      sendButtonValue: "SEND",
+      saveButtonValue: "SAVE",
+      saveAsButtonValue: "SAVE AS"
+    };
   },
-  watch:{
-   activeIndex(newValue,oldValue){
+  watch: {
+    activeIndex(newValue, oldValue) {
       this.url = this.sendList[newValue].urlText;
-   }
+    }
   },
   computed: {
     ...mapGetters({
-      sendList: 'getSendList'
+      sendList: "getSendList"
     })
   },
   methods: {
-    urlChanged(url){
+    urlChanged(url) {
       this.url = url;
     },
     selectedChange(value) {
-      this.$emit('selectedChange', value);
+      this.$emit("selectedChange", value);
       this.method = value;
     },
-    clicked(value){
-      this.$emit('clicked', {
+    clicked(value) {
+      this.$emit("clicked", {
         url: this.url,
         method: this.method,
         buttonType: value
       });
-      this.url='';
-    },
-  },
+      this.url = "";
+    }
+  }
 };
 </script>
 
 <!-- Add 'scoped' attribute to limit CSS to this component only -->
 <style scoped>
-.row{
+.row {
   width: 100%;
   margin-top: 10px;
 }
 
-.center{
+.center {
   text-align: center;
 }
 
 @media only screen and (min-width: 768px) {
-  #button-container{
-   padding:0;
-   display:flex;
-   flex-direction:row;
-   justify-content: space-between;
-   margin-left: -2vw;
+  #button-container {
+    padding: 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-left: -2vw;
   }
 
-  #button{
+  #button {
     margin-right: 5px;
   }
-
-  }
+}
 
 @media only screen and (max-width: 767.9px) {
-    .row{
-      margin: auto;
-      margin-top: 10px;
-    }
+  .row {
+    margin: auto;
+    margin-top: 10px;
   }
+}
 </style>

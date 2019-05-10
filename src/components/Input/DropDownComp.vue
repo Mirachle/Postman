@@ -1,81 +1,56 @@
 <template>
-  <div style="padding:0px;">
-    <select @change="optionChange" v-model="selected" class="minimal">
-      <option value="post">POST</option>
-      <option value="get">GET</option>
-      <option value="patch">PATCH</option>
-      <option value="delete">DELETE</option>
-      <option value="put">PUT</option>
-    </select>
+  <div class="btn-group" style="height:30px;justify-content:center">
+    <button
+      type="button"
+      class="btn btn-danger dropdown-toggle"
+      style="height:30px;background-color: #1111111a;border:none;padding-bottom:0;padding-top:0;color:black"
+      data-toggle="dropdown"
+      aria-haspopup="true"
+      aria-expanded="false"
+    >{{this.selectedName}}</button>
+    <div class="animated fadeIn dropdown-menu" style="padding:0">
+      <a class="dropdown-item" href="#" @click="requestClicked('post')">POST</a>
+      <a class="dropdown-item" href="#" @click="requestClicked('get')">GET</a>
+      <a class="dropdown-item" href="#" @click="requestClicked('patch')">PATH</a>
+      <a class="dropdown-item" href="#" @click="requestClicked('delete')">DELETE</a>
+      <a class="dropdown-item" href="#" @click="requestClicked('put')">PUT</a>
+    </div>
   </div>
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
-
+import { mapGetters } from "vuex";
 export default {
-  name: 'DropDownComp',
-  props:['index'],
+  name: "DropDownComp",
+  props: ["index"],
   data() {
     return {
-      selected: 'post',
+      selected: "post",
+      selectedName: "POST"
     };
+  },
+  methods: {
+    requestClicked(value) {
+      this.selected = value;
+      this.selectedName = value.toUpperCase();
+      this.$emit("selected", this.selected);
+    }
   },
   computed: {
     ...mapGetters({
-      sendList: 'getSendList'
-      })
+      sendList: "getSendList"
+    })
   },
-   watch:{
-   index(newValue,oldValue){
-     this.selected = this.sendList[newValue].type;
-     this.$emit('selected', this.selected);
-   }
-   },
-  methods: {
-    optionChange() {
-      this.$emit('selected', this.selected);
-    },
-  },
-
+  watch: {
+    index(newValue, oldValue) {
+      this.selected = this.sendList[newValue].type;
+      this.selectedName = this.selected.toUpperCase();
+      this.$emit("selected", this.selected);
+    }
+  }
 };
 </script>
 
-<!-- Add 'scoped' attribute to limit CSS to this component only -->
+
 <style scoped>
-select {
-
-  /* styling */
-  background-color: #1111111a;
-  border: 0px;
-  border-radius: 5px;
-  display: inline-block;
-  font: inherit;
-  padding: 0.2em 2em 0.2em 0.5em;
-  color:  black;
-  font-weight: 600;
-  cursor: pointer;
-
-  /* reset */
-
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-}
-
-select.minimal {
-  background-image:
-    linear-gradient(45deg, transparent 50%,  #5f5f5f 50%),
-    linear-gradient(135deg,  #5f5f5f 50%, transparent 50%);
-  background-position:
-    calc(100% - 20px) calc(0.9em),
-    calc(100% - 15px) calc(0.9em);
-  background-size:
-    5px 5px,
-    5px 5px;
-  background-repeat: no-repeat;
-}
-
 </style>
