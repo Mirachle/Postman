@@ -11,7 +11,7 @@
     <transition-group name="listgroup" tag="div">
       <div v-for="(item,index) in 3" :key="item" class="list-item">
         <environment-list
-          @clicked="deleteListItem(index)"
+          @clicked="deleteHeadListItem(index)"
           @keyChanged="keyChanged"
           @valueChanged="valueChanged"
           :item="item"
