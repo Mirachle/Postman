@@ -1,7 +1,12 @@
 <template>
   <div>
     <input-row @selectedChange="selected" @clicked="clicked" :activeIndex="activeIndex"/>
-    <text-area v-if="areaVisible" :areaValue="areaValue" @areaChanged="areaChanged"/>
+    <ul>
+      <li :class="[isSelected == index ? 'selected' : '']" v-for="(item,index) in filterList" :key="item" @click="filterItemClicked(index)">
+        {{item}}
+      </li>
+    </ul>
+    <text-area v-if="areaVisible & isSelected == 1" :areaValue="areaValue" @areaChanged="areaChanged"/>
   </div>
 </template>
 
@@ -17,6 +22,8 @@ export default {
     return {
       areaVisible: true,
       areaValue: "",
+      filterList: ['HEADER', 'BODY'],
+      isSelected: 1
     };
   },
 
@@ -55,6 +62,26 @@ export default {
       });
       this.areaValue = "";
     },
+    filterItemClicked(value){
+      this.isSelected= value;
+    }
   }
 };
 </script>
+
+<style scoped>
+li{
+  list-style-type: none;
+}
+ul{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+.selected{
+  font-weight: bold;
+}
+
+
+</style>
+

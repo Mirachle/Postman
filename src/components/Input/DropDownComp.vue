@@ -2,7 +2,7 @@
   <div class="btn-group" style="height:30px;justify-content:center">
     <button
       type="button"
-      class="btn btn-danger dropdown-toggle"
+      class="btn dropdown-toggle"
       style="height:30px;background-color: #1111111a;border:none;padding-bottom:0;padding-top:0;color:black"
       data-toggle="dropdown"
       aria-haspopup="true"
