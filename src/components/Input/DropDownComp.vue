@@ -2,8 +2,7 @@
   <div class="btn-group" style="height:30px;justify-content:center">
     <button
       type="button"
-      class="btn dropdown-toggle"
-      style="height:30px;background-color: #1111111a;border:none;padding-bottom:0;padding-top:0;color:black"
+      class="btn btn-danger dropdown-toggle gomb"
       data-toggle="dropdown"
       aria-haspopup="true"
       aria-expanded="false"
@@ -53,4 +52,14 @@ export default {
 
 
 <style scoped>
+.gomb{
+  height:30px;
+  background-color: #1111111a;
+  border:none;
+  padding-bottom:0;
+  padding-top:0;
+  color:black;
+  font-weight: 600;
+  outline: none;
+}
 </style>

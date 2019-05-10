@@ -7,12 +7,14 @@
       </li>
     </ul>
     <text-area v-if="areaVisible & isSelected == 1" :areaValue="areaValue" @areaChanged="areaChanged"/>
+    <head-comp v-if="isSelected == 0"/>
   </div>
 </template>
 
 <script>
 import InputRow from "@/components/Input/InputRow";
 import TextArea from "@/components/Input/TextArea";
+import HeadComp from "@/components/Input/HeadComp";
 import { mapGetters } from "vuex";
 
 export default {
@@ -29,7 +31,8 @@ export default {
 
   components: {
     "input-row": InputRow,
-    "text-area": TextArea
+    "text-area": TextArea,
+    "head-comp": HeadComp,
   },
   computed: {
     ...mapGetters({
@@ -80,6 +83,7 @@ ul{
 }
 .selected{
   font-weight: bold;
+  text-decoration: underline;
 }
 
 

@@ -197,7 +197,7 @@ input[value="Cancel"]:hover {
 
 .list-item{
   width:100%;
-  transition: all 0.5s;
+  transition: all 0.2s;
   display: inline-block;
 }
 .listgroup-enter{
@@ -209,7 +209,7 @@ input[value="Cancel"]:hover {
 }
 
 .listgroup-enter-active{
-  transition: all 0.5s;
+  transition: all 0.2s;
 }
 .listgroup-leave-active {
   position: absolute;
