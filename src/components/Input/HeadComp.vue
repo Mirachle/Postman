@@ -1,10 +1,10 @@
 <template>
   <div>
-    <div class="modal-body row">
-      <div class="col-5" style="margin-left:-10px;">
+    <div class="modal-body row" style="padding:0">
+      <div class="col-5">
         <p>Key:</p>
       </div>
-      <div class="col-6" style="margin-left: 10px;">
+      <div class="col-6">
         <p>Value:</p>
       </div>
     </div>
