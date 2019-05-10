@@ -23,7 +23,7 @@ export default {
 
 <style scoped>
 .list-item{
-  transition: all 1s;
+  transition: all 0.2s;
   display: block;
 }
 .fade-enter{
@@ -36,10 +36,10 @@ export default {
 }
 
 .fade-enter-active{
-  transition: all 1s;
+  transition: all 0.2s;
 }
 .fade-leave-active {
-  transition: all 1s;
+  transition: all 0.2s;
 }
 </style>
 

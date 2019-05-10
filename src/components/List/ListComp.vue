@@ -1,6 +1,6 @@
 <template>
-  <div class="row">
-    <transition-group name="fade" tag="div">
+  <div class="row" style="width:100%;">
+    <transition-group name="fade" tag="div" style="width:100%;">
       <div v-for="(item,index) in list" :key="item" class="list-item">
         <item-comp :item="item" :index="index"/>
       </div>
@@ -24,7 +24,7 @@ export default {
 <style scoped>
 .list-item{
   width:100%;
-  transition: all 1s;
+  transition: all 0.2s;
 }
 .fade-enter{
   opacity: 0;
@@ -36,7 +36,7 @@ export default {
 }
 
 .fade-enter-active{
-  transition: all 1s;
+  transition: all 0.2s;
 }
 .fade-leave-active {
   position: absolute;
