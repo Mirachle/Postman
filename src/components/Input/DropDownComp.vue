@@ -77,4 +77,5 @@ select.minimal {
     5px 5px;
   background-repeat: no-repeat;
 }
+
 </style>
