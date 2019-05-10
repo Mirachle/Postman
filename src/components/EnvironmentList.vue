@@ -7,6 +7,7 @@
       <input v-model="item.value" @input="valueChanged" id="in">
     </div>
     <div id="delicon" class="col-1 input">
+      <ic-delete v-if="headComp" class="ic-delete rotation" :r="25" @clicked="$emit('plusClicked')"/>
       <ic-delete class="ic-delete" :r="25" @clicked="$emit('clicked')"/>
     </div>
   </div>
@@ -18,7 +19,7 @@ import { mapActions, mapGetters } from "vuex";
 
 export default {
   name: "EnvironmentList",
-  props: ["index", "item"],
+  props: ["index", "item", 'headComp'],
 
   components: {
     "ic-delete": IcDelete
@@ -39,7 +40,8 @@ export default {
   display: none;
 }
 .item:hover #delicon {
-  display: inline;
+  display: inline-block;
+  position: relative;
 }
 
 .item {
@@ -53,6 +55,11 @@ export default {
   position: absolute;
   margin-right: 10px;
   right: 0px;
+}
+
+.rotation{
+  transform: rotate(45deg);
+  margin-right: 40px;
 }
 </style>
 
