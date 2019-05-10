@@ -11,6 +11,7 @@ export const store = new Vuex.Store({
     list: [],
     sendList: [],
     environmentList: [],
+    headerList: []
   },
 
   getters: {
@@ -22,6 +23,9 @@ export const store = new Vuex.Store({
     },
     getEnvironmentList(state){
       return state.environmentList;
+    },
+    getHeaderList(state){
+      return state.headerList;
     }
   },
 
@@ -48,11 +52,23 @@ export const store = new Vuex.Store({
         value: value
       })
     },
+    headerListPush(state, [index,key, value]){
+      state.headerList.splice(index,0,{
+        key: key,
+        value: value
+      })
+    },
+    headerListDelete(state, index){
+      state.headerList.splice(index, 1)
+    },
     onDelete(state, index){
       state.list.splice(index, 1)
     },
     sendListDelete(state, index){
       state.sendList.splice(index, 1)
+    },
+    headerListSave(state, list) {
+      state.headerList = list;
     },
     sendListSaveAs(state, [name,selected, url, index, body]){
       state.sendList[index].name = name,
@@ -75,6 +91,12 @@ export const store = new Vuex.Store({
     },
     environmentListDelete(context, index){
       context.commit('environmentListDelete', index);
+    },
+    headerListPush(context, [index,key, value]){
+      context.commit('headerListPush',[index,key, value])
+    },
+    headerListDelete(context, index){
+      context.commit('headerListDelete', index);
     },
     onDelete(context, index){
       context.commit('onDelete', index);
