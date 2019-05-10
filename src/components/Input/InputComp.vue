@@ -2,7 +2,7 @@
   <div>
     <input-row @selectedChange="selected" @clicked="clicked" :activeIndex="activeIndex"/>
     <ul>
-      <li :class="[isSelected == index ? 'selected' : '']" v-for="(item,index) in filterList" :key="item" @click="filterItemClicked(index)">
+      <li :class="[isSelected == index ? 'selected' : '', 'col-md-6', 'col-12']" v-for="(item,index) in filterList" :key="item" @click="filterItemClicked(index)">
         {{item}}
       </li>
     </ul>
@@ -84,6 +84,9 @@ ul{
 .selected{
   font-weight: bold;
   text-decoration: underline;
+}
+.col-md-6,.col-12{
+  text-align: center
 }
 
 
