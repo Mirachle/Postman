@@ -75,6 +75,7 @@ export default {
 <style scoped>
 li{
   list-style-type: none;
+  cursor: pointer;
 }
 ul{
   display: flex;
@@ -88,7 +89,12 @@ ul{
 .col-md-6,.col-12{
   text-align: center
 }
-
+@media only screen and (max-width: 767.9px) {
+    ul{
+      display: block;
+      padding: 0;
+    }
+  }
 
 </style>
 
