@@ -1,7 +1,7 @@
 <template>
 <div>
   <transition-group name="fade" tag="div">
-    <div v-for="(item,index) in list" :key="item"  class="list-item">
+    <div v-for="(item,index) in list" :key="item" class="list-item">
       <send-item @clicked="$emit('clicked', index)" :item="item" :index="index" :activeIndex="activeIndex"/>
     </div>
   </transition-group>

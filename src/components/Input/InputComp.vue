@@ -98,6 +98,10 @@ input{
   justify-content: space-around;
 }
 
+.filter-class{
+  margin-bottom: 5px;
+}
+
 @media only screen and (max-width: 767.9px) {
     .filter-container{
       flex-direction: column;

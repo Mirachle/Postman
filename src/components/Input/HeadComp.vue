@@ -1,18 +1,10 @@
 <template>
   <div>
-    <div class="row" style="padding:0">
-      <div class="col-5">
-        <p>Key:</p>
-      </div>
-      <div class="col-6">
-        <p>Value:</p>
-      </div>
-    </div>
     <transition-group name="listgroup" tag="div">
-      <div v-for="(item,index) in 3" :key="item" class="list-item">
+      <div v-for="(item,index) in list" :key="item" class="list-item">
         <environment-list
-          @clicked="deleteListItem(index)"
-          @plusClicked="plusListItem(index)"
+          @clicked="deleteListItem"
+          @plusClicked="plusListItem"
           @keyChanged="keyChanged"
           @valueChanged="valueChanged"
           :item="item"
@@ -26,10 +18,37 @@
 
 <script>
 import EnvironmentList from "@/components/EnvironmentList";
+import { mapGetters, mapActions } from 'vuex';
 export default {
   name: "HeadComp",
   components: {
     "environment-list": EnvironmentList
+  },
+  computed:{
+    ...mapGetters({
+      list: 'getHeaderList'
+    }),
+  },
+  methods:{
+    ...mapActions([
+      'headerListPush',
+      'headerListDelete',
+      'headerListSave',
+    ]),
+    deleteListItem(index){
+      this.headerListDelete(index)
+    },
+    plusListItem(index){
+      this.headerListPush([index+1, '', ''])
+    },
+    keyChanged(key, index){
+      this.list[index].key = key;
+      this.headerListSave(this.list);
+    },
+    valueChanged(value, index){
+      this.list[index].value = value;
+      this.headerListSave(this.list);
+    },
   }
 };
 </script>

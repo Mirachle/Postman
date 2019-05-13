@@ -11,7 +11,7 @@ export const store = new Vuex.Store({
     list: [],
     sendList: [],
     environmentList: [],
-    headerList: []
+    headerList: [{key: '', value: ''}]
   },
 
   getters: {
@@ -58,6 +58,9 @@ export const store = new Vuex.Store({
         value: value
       })
     },
+    headerListSave(state, list){
+      state.headerList = list;
+    },
     headerListDelete(state, index){
       state.headerList.splice(index, 1)
     },
@@ -86,6 +89,9 @@ export const store = new Vuex.Store({
   },
 
   actions: {
+    headerListSave(context, list){
+      context.commit('headerListSave', list)
+    },
     environmentListPush(context, [key, value]){
       context.commit('environmentListPush',[key, value])
     },

@@ -7,8 +7,8 @@
       <input v-model="item.value" @input="valueChanged" id="in">
     </div>
     <div id="delicon" class="col-1 input">
-      <ic-delete v-if="headComp" class="ic-delete rotation" :r="25" @clicked="$emit('plusClicked')"/>
-      <ic-delete class="ic-delete" :r="25" @clicked="$emit('clicked')"/>
+      <ic-delete v-if="headComp" class="ic-delete rotation" :r="25" @clicked="$emit('plusClicked', index)"/>
+      <ic-delete class="ic-delete" :r="25" @clicked="$emit('clicked', index)"/>
     </div>
   </div>
 </template>
