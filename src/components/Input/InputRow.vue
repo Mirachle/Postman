@@ -46,7 +46,13 @@ export default {
   },
   watch: {
     activeIndex(newValue, oldValue) {
-      this.url = this.sendList[newValue].urlText;
+      if (this.activeIndex != undefined){
+        this.url = this.sendList[newValue].urlText;
+      }
+      else {
+        this.url = ""
+      }
+
     }
   },
   computed: {
@@ -91,7 +97,7 @@ export default {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    margin-left: -2vw;
+    margin-left: -2.5vw;
   }
 
   #button {

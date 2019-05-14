@@ -1,8 +1,8 @@
 <template>
-  <div class="btn-group" style="height:30px;justify-content:center">
+  <div class="btn-group">
     <button
       type="button"
-      class="btn dropdown-toggle gomb"
+      class="btn dropdown-toggle dropdown-class"
       data-toggle="dropdown"
       aria-haspopup="true"
       aria-expanded="false"
@@ -10,7 +10,7 @@
     <div class="animated fadeIn dropdown-menu" style="padding:0">
       <a class="dropdown-item" href="#" @click="requestClicked('post')">POST</a>
       <a class="dropdown-item" href="#" @click="requestClicked('get')">GET</a>
-      <a class="dropdown-item" href="#" @click="requestClicked('patch')">PATH</a>
+      <a class="dropdown-item" href="#" @click="requestClicked('patch')">PATCH</a>
       <a class="dropdown-item" href="#" @click="requestClicked('delete')">DELETE</a>
       <a class="dropdown-item" href="#" @click="requestClicked('put')">PUT</a>
     </div>
@@ -52,7 +52,7 @@ export default {
 
 
 <style scoped>
-.gomb{
+.dropdown-class{
   height:30px;
   background-color: #1111111a;
   border:none;
@@ -62,7 +62,13 @@ export default {
   font-weight: 600;
   outline: none;
 }
-.gomb:active{
+.dropdown-class:active{
   background-color: #1111111a;
+}
+
+.btn-group{
+  margin-left: -10px;
+  height:30px;
+  justify-content:center
 }
 </style>

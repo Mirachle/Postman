@@ -11,7 +11,6 @@ export const store = new Vuex.Store({
     list: [],
     sendList: [],
     environmentList: [],
-    headerList: [{key: '', value: ''}]
   },
 
   getters: {
@@ -24,9 +23,6 @@ export const store = new Vuex.Store({
     getEnvironmentList(state){
       return state.environmentList;
     },
-    getHeaderList(state){
-      return state.headerList;
-    }
   },
 
   mutations: {
@@ -38,12 +34,13 @@ export const store = new Vuex.Store({
         value: statusCode,
       })
     },
-    sendListPush(state, [name,selected, url, body]){
+    sendListPush(state, [name,selected, url, headerList, body]){
       state.sendList.push({
         name: name,
         type: selected,
         urlText: url,
-        bodyValue: body
+        bodyValue: body,
+        headerList: headerList
       })
     },
     environmentListPush(state, [key, value]){
@@ -52,32 +49,18 @@ export const store = new Vuex.Store({
         value: value
       })
     },
-    headerListPush(state, [index,key, value]){
-      state.headerList.splice(index,0,{
-        key: key,
-        value: value
-      })
-    },
-    headerListSave(state, list){
-      state.headerList = list;
-    },
-    headerListDelete(state, index){
-      state.headerList.splice(index, 1)
-    },
     onDelete(state, index){
       state.list.splice(index, 1)
     },
     sendListDelete(state, index){
       state.sendList.splice(index, 1)
     },
-    headerListSave(state, list) {
-      state.headerList = list;
-    },
-    sendListSaveAs(state, [name,selected, url, index, body]){
+    sendListSaveAs(state, [name,selected, url, index, headerList, body]){
       state.sendList[index].name = name,
       state.sendList[index].type = selected,
       state.sendList[index].urlText = url,
-      state.sendList[index].bodyValue = body
+      state.sendList[index].bodyValue = body,
+      state.sendList[index].headerList = headerList
     },
 
     environmentListSave(state, list) {
@@ -89,20 +72,11 @@ export const store = new Vuex.Store({
   },
 
   actions: {
-    headerListSave(context, list){
-      context.commit('headerListSave', list)
-    },
     environmentListPush(context, [key, value]){
       context.commit('environmentListPush',[key, value])
     },
     environmentListDelete(context, index){
       context.commit('environmentListDelete', index);
-    },
-    headerListPush(context, [index,key, value]){
-      context.commit('headerListPush',[index,key, value])
-    },
-    headerListDelete(context, index){
-      context.commit('headerListDelete', index);
     },
     onDelete(context, index){
       context.commit('onDelete', index);
@@ -110,14 +84,14 @@ export const store = new Vuex.Store({
     sendListDelete(context, index){
       context.commit('sendListDelete', index);
     },
-    postPutPatchSave(context, [name,selected,url,textArea]){
-      context.commit('sendListPush', [name,selected,url,textArea])
+    postPutPatchSave(context, [name,selected,url, headerList, textArea]){
+      context.commit('sendListPush', [name,selected,url, headerList, textArea])
     },
-    getDeleteSave(context,[name,selected,url]){
-      context.commit('sendListPush',[name,selected,url])
+    getDeleteSave(context,[name,selected,url, headerList]){
+      context.commit('sendListPush',[name,selected,url, headerList])
     },
-    postPutPatchSaveAs(context, [name,selected,url,index,textArea]){
-      context.commit('sendListSaveAs', [name,selected,url,index,textArea])
+    postPutPatchSaveAs(context, [name,selected,url,index, headerList, textArea]){
+      context.commit('sendListSaveAs', [name,selected,url,index, headerList, textArea])
     },
     postPutPatchPush(context, [selected, url, textArea]){
       axios[selected](url, JSON.parse(textArea))

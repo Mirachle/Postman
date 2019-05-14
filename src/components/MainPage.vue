@@ -1,14 +1,11 @@
 <template>
   <div class="row">
     <div class="col-md-3 col-12 line">
-      <button-comp :class="[showModal ? blurClass : '', bkClass, 'line2']" buttonValue="Environment" @clicked="showModal = true"/>
-      <transition enter-active-class="fadeIn" leave-active-class="fadeOut">
-        <modal @close="showModal = false" v-if="showModal"/>
-      </transition>
+      <environment-comp/>
       <send-list :class="[showModal ? blurClass : '', bkClass]" @clicked="clicked" :list="sendList" :activeIndex="activeIndex"/>
     </div>
     <div :class="[showModal ? blurClass : '', bkClass, 'col-md-9 col-12']">
-      <input-comp @clicked="inputClicked" :activeIndex="activeIndex"/>
+      <input-comp @clicked="inputClicked" :activeIndex="activeIndex" :currentList="currentList" @keyChanged="keyChanged" @valueChanged="valueChanged"/>
       <list-comp :list="list"/>
     </div>
   </div>
@@ -18,8 +15,7 @@
 import InputComp from "@/components/Input/InputComp";
 import ListComp from "@/components/List/ListComp";
 import SendList from "@/components/SendList/SendList";
-import ModalComp from "@/components/ModalComp";
-import ButtonComp from '@/components/Input/ButtonComp';
+import EnvironmentComp from "@/components/Environment/EnvironmentComp";
 import {mapActions, mapGetters} from 'vuex';
 import Swal from 'sweetalert2'
 
@@ -29,11 +25,7 @@ export default {
     return {
       itemIndex: undefined,
       activeIndex: undefined,
-      showModal: false,
-      modalEffect: "",
-      maskEffect: "",
-      bkClass: 'bk',
-      blurClass: 'blur'
+      currentList: [{key: '', value: ''}]
       };
   },
 
@@ -41,12 +33,29 @@ export default {
     "input-comp": InputComp,
     "list-comp": ListComp,
     "send-list": SendList,
-    "modal": ModalComp,
-    'button-comp': ButtonComp,
+    "environment-comp": EnvironmentComp,
   },
 
   created(){
     this.originError();
+  },
+  watch: {
+    activeIndex(newValue, oldValue) {
+      this.currentList = []
+      if (newValue != undefined){
+        var i = 0;
+        while (this.sendList[newValue].headerList[i] != undefined) {
+          this.currentList.push({
+            key: this.sendList[newValue].headerList[i].key,
+            value: this.sendList[newValue].headerList[i].value
+          });
+          i++;
+        }
+      }
+      else {
+        this.currentList = [{key: "", value: ""}]
+      }
+    }
   },
 
   computed: {
@@ -97,9 +106,9 @@ export default {
         }).then((result) => {
           if (result.value) {
             if ((selected == "post") || (selected == "put") || (selected == "patch")) {
-              this.postPutPatchSave([(result.value),selected, url, textArea])
+              this.postPutPatchSave([(result.value),selected, url, this.currentList, textArea])
             }else{
-              this.postPutPatchSave([(result.value),selected, url])
+              this.postPutPatchSave([(result.value),selected, url, this.currentList])
             }
           }
         })
@@ -115,9 +124,9 @@ export default {
         }).then((result) => {
           if (result.value) {
             if ((selected == "post") || (selected == "put") || (selected == "patch")) {
-              this.postPutPatchSaveAs([(result.value),selected, url, this.activeIndex, textArea])
+              this.postPutPatchSaveAs([(result.value),selected, url, this.activeIndex, this.currentList, textArea])
             }else{
-              this.postPutPatchSaveAs([(result.value),selected, url, this.activeIndex])
+              this.postPutPatchSaveAs([(result.value),selected, url, this.activeIndex, this.currentList])
             }
             this.activeIndex = undefined;
           }
@@ -136,9 +145,9 @@ export default {
         }).then((result) => {
           if (result.value) {
             if ((selected == "post") || (selected == "put") || (selected == "patch")) {
-              this.postPutPatchSave([(result.value),selected, url, textArea])
+              this.postPutPatchSave([(result.value),selected, url, this.currentList, textArea])
             }else{
-              this.postPutPatchSave([(result.value),selected, url])
+              this.postPutPatchSave([(result.value),selected, url, this.currentList])
             }
             this.activeIndex = undefined;
           }
@@ -163,6 +172,12 @@ export default {
         this.activeIndex = index;
       }
     },
+    keyChanged(key, index){
+      this.currentList[index].key = key;
+    },
+    valueChanged(value, index){
+      this.currentList[index].value = value;
+    },
   }
 };
 
@@ -178,25 +193,6 @@ https://jsonplaceholder.typicode.com/posts
 </script>
 
 <style scoped>
-.bk {
-  transition: all 0.1s ease-out;
-}
-
-.blur {
-  filter: blur(1px);
-  opacity: 0.4;
-}
-.line2{
-  text-align: center;
-  margin-bottom: 10px;
-  border-style: solid;
-  border-width: 0px 0px 3px 0px;
-  border-color: #1111111a;
-  padding-bottom: 15px;
-  margin-bottom: 15px;
-  margin-top: 15px;
-}
-
 .line{
   border-style: solid;
   border-width: 0px 3px 0px 0px;

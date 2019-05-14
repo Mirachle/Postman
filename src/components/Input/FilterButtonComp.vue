@@ -54,6 +54,7 @@ input {
   margin-top: 10%;
   color: black;
   outline: none;
+  text-align: center;
 }
 .selected {
   color: white;

@@ -1,7 +1,7 @@
 <template>
   <div class="row">
     <input :class="{'color': index == activeIndex}" @click="$emit('clicked', index)" type="button" :value="item.name">
-    <ic-delete @clicked="sendListDelete(index)" :r="30" class="ic-delete"/>
+    <ic-delete @clicked="listDelete(index)" :r="30" class="ic-delete"/>
   </div>
 </template>
 
@@ -19,6 +19,12 @@ export default {
     ...mapActions([
       'sendListDelete'
     ]),
+    listDelete(index){
+      if(this.activeIndex == index) {
+        this.$emit('clicked', index)
+      }
+      this.sendListDelete(index);
+    }
   },
 };
 </script>

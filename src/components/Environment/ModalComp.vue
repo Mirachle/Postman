@@ -36,7 +36,7 @@
 </template>
 
 <script>
-import EnvironmentList from "@/components/EnvironmentList";
+import EnvironmentList from "@/components/Environment/EnvironmentList";
 import { mapGetters, mapActions, mapMutations } from "vuex";
 
 export default {

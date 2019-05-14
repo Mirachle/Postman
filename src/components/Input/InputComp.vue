@@ -7,7 +7,7 @@
     </div>
     </div>
     <text-area v-if="areaVisible & isSelected == 1" :areaValue="areaValue" @areaChanged="areaChanged"/>
-    <head-comp v-if="isSelected == 0"/>
+    <head-comp v-if="isSelected == 0" :currentList="currentList" @keyChanged="keyChanged" @valueChanged="valueChanged"/>
   </div>
 </template>
 
@@ -17,11 +17,10 @@ import TextArea from "@/components/Input/TextArea";
 import HeadComp from "@/components/Input/HeadComp";
 import FilterButtonComp from "@/components/Input/FilterButtonComp"
 import { mapGetters } from "vuex";
-//      <input :class="[isSelected == index ? 'selected' : '', 'col-md-6', 'col-12']" :disabled="isBody(this.item)" type="button" :value="item">
 
 export default {
   name: "InputComp",
-  props: ['activeIndex'],
+  props: ['activeIndex', 'currentList'],
   data() {
     return {
       areaVisible: true,
@@ -30,9 +29,6 @@ export default {
       isSelected: 0
     };
   },
-// <li :class="[isSelected == index ? 'selected' : '', 'col-md-6', 'col-12']" :disabled="isBody" v-for="(item,index) in filterList" :key="item" @click="filterItemClicked(index)">
-     //   {{item}}
-   //   </li>
   components: {
     "input-row": InputRow,
     "text-area": TextArea,
@@ -54,7 +50,12 @@ export default {
   },
   watch: {
     activeIndex(newValue, oldValue) {
-      this.areaValue = this.sendList[newValue].bodyValue;
+      if (this.activeIndex != undefined){
+        this.areaValue = this.sendList[newValue].bodyValue;
+      }
+      else {
+        this.areaValue = ""
+      }
     }
   },
 
@@ -83,7 +84,13 @@ export default {
     },
     selectedIndexChange(){
       this.isSelected = 0;
-    }
+    },
+    keyChanged(key, index){
+      this.$emit('keyChanged', key, index)
+    },
+    valueChanged(value, index){
+      this.$emit('valueChanged', value, index)
+    },
   },
 };
 </script>
@@ -95,7 +102,8 @@ input{
 .filter-container{
   display: flex;
   flex-direction: row;
-  justify-content: space-around;
+  justify-content: space-between;
+  margin-right: 6vw;
 }
 
 .filter-class{

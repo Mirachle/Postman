@@ -1,7 +1,15 @@
 <template>
   <div>
+    <div class="head-head row">
+      <div class="col-5" style="margin-left:-10px;">
+        <p>Key:</p>
+      </div>
+      <div class="col-6" style="margin-left: 10px;">
+        <p>Value:</p>
+      </div>
+    </div>
     <transition-group name="listgroup" tag="div">
-      <div v-for="(item,index) in list" :key="item" class="list-item">
+      <div v-for="(item,index) in currentList" :key="item" class="list-item">
         <environment-list
           @clicked="deleteListItem"
           @plusClicked="plusListItem"
@@ -17,38 +25,32 @@
 </template>
 
 <script>
-import EnvironmentList from "@/components/EnvironmentList";
-import { mapGetters, mapActions } from 'vuex';
+import EnvironmentList from "@/components/Environment/EnvironmentList";
+
 export default {
   name: "HeadComp",
   components: {
     "environment-list": EnvironmentList
   },
-  computed:{
-    ...mapGetters({
-      list: 'getHeaderList'
-    }),
-  },
+  props:['currentList'],
   methods:{
-    ...mapActions([
-      'headerListPush',
-      'headerListDelete',
-      'headerListSave',
-    ]),
     deleteListItem(index){
-      this.headerListDelete(index)
+      if(this.currentList.length > 1) {
+        this.currentList.splice(index,1)
+      }
     },
     plusListItem(index){
-      this.headerListPush([index+1, '', ''])
+      this.currentList.splice(index+1,0,{
+        key: '',
+        value: ''
+      })
     },
     keyChanged(key, index){
-      this.list[index].key = key;
-      this.headerListSave(this.list);
+      this.$emit('keyChanged', key, index)
     },
     valueChanged(value, index){
-      this.list[index].value = value;
-      this.headerListSave(this.list);
-    },
+      this.$emit('valueChanged', value, index)
+    }
   }
 };
 </script>
@@ -72,5 +74,10 @@ export default {
 }
 .listgroup-leave-active {
   position: absolute;
+}
+
+.head-head{
+  margin: 0px 0;
+  padding: 0;
 }
 </style>

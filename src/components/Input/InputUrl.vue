@@ -54,7 +54,7 @@ input{
   margin-right: 0px;
   padding-right: 0px;
   padding-left: 0px;
-  margin-left: 0px;
+  margin-left: -2.6vw;
 }
 
 .red-color{
