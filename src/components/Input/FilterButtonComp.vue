@@ -61,9 +61,11 @@ input {
 }
 .cursor-enable {
   cursor: pointer;
+  margin-top: 20px;
 }
 .cursor-disable {
   cursor: no-drop;
   color: rgb(120, 120, 120);
+  margin-top: 20px;
 }
 </style>

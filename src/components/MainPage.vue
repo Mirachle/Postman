@@ -79,13 +79,14 @@ export default {
       var url = JSON.stringify(data.url).replace(/"/g, "");
       var selected = JSON.stringify(data.method).replace(/"/g, "");
       var textArea = data.text;
+      var list = this.currentList;
       if(url != ("" | " ")){
         try {
           if ((selected == "post") || (selected == "put") || (selected == "patch")) {
-            this.postPutPatchPush([selected, url, textArea])
+            this.postPutPatchPush([selected, url, textArea, this.currentList])
           }
           else{
-            this.getDeletePush([selected, url])
+            this.getDeletePush([selected, url, list])
           }
         } catch (e) {
           this.handleError([e, selected, url])
@@ -110,6 +111,7 @@ export default {
             }else{
               this.postPutPatchSave([(result.value),selected, url, this.currentList])
             }
+            this.currentlist[i].key
           }
         })
       } else {

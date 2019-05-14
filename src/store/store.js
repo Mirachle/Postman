@@ -93,8 +93,19 @@ export const store = new Vuex.Store({
     postPutPatchSaveAs(context, [name,selected,url,index, headerList, textArea]){
       context.commit('sendListSaveAs', [name,selected,url,index, headerList, textArea])
     },
-    postPutPatchPush(context, [selected, url, textArea]){
-      axios[selected](url, JSON.parse(textArea))
+
+
+    withTextAreaPush(context, [selected, url, textArea, list]){
+      var o = new Object();
+      list.forEach(item => {o[item.key] = item.value})
+
+      if ((list[0].key != "") && (list[0].key != " ") && (list[0].key != undefined)){
+        return axios[selected](url, JSON.parse(textArea), {headers: o})
+      }
+      return axios[selected](url, JSON.parse(textArea))
+    },
+    postPutPatchPush(context, [selected, url, textArea, list]){
+      context.dispatch('withTextAreaPush',[selected, url, textArea, list])
       .then(r => {
         if (r.data.result){
           var response = JSON.stringify(r.data.result).replace(/"/g, " ");
@@ -110,8 +121,18 @@ export const store = new Vuex.Store({
       });
     },
 
-    getDeletePush(context, [selected, url]){
-      axios[selected](url)
+
+    withoutTextAreaPush(context, [selected, url, list]){
+      var o = new Object();
+      list.forEach(item => {o[item.key] = item.value})
+
+      if ((list[0].key != "") && (list[0].key != " ") && (list[0].key != undefined)){
+        return axios[selected](url, {headers: o})
+      }
+      return axios[selected](url)
+    },
+    getDeletePush(context, [selected, url, list]){
+      context.dispatch('withoutTextAreaPush',[selected, url, list])
         .then(r => {
           var response = JSON.stringify(r.data).replace(/"/g, " ");
           var statusCode = JSON.stringify(r.status);
@@ -120,21 +141,22 @@ export const store = new Vuex.Store({
         .catch(e => context.dispatch('handleError',[e, selected, url]));
     },
 
+
     handleError(context, [e, selected, url]){
-        try{
+      try{
+        var response = JSON.stringify(e.response).replace(/"/g, " ");
+        var statusCode = JSON.stringify(e.response.status);
+        context.commit('listPush', [selected, url, response, statusCode])
+      }
+      catch(e){
+        if (e.response) {
           var response = JSON.stringify(e.response).replace(/"/g, " ");
           var statusCode = JSON.stringify(e.response.status);
           context.commit('listPush', [selected, url, response, statusCode])
+        } else {
+        context.commit('listPush', [selected, url, e.message, '0'])
         }
-        catch(e){
-          if (e.response) {
-            var response = JSON.stringify(e.response).replace(/"/g, " ");
-            var statusCode = JSON.stringify(e.response.status);
-            context.commit('listPush', [selected, url, response, statusCode])
-          } else {
-          context.commit('listPush', [selected, url, e.message, '0'])
-          }
-        }
+      }
     },
 
     originError(){
