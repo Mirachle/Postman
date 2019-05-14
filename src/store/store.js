@@ -68,6 +68,9 @@ export const store = new Vuex.Store({
     },
     environmentListDelete(state, index){
       state.environmentList.splice(index, 1)
+    },
+    clearList(state){
+      state.list = []
     }
   },
 
@@ -93,6 +96,10 @@ export const store = new Vuex.Store({
     postPutPatchSaveAs(context, [name,selected,url,index, headerList, textArea]){
       context.commit('sendListSaveAs', [name,selected,url,index, headerList, textArea])
     },
+    clearList(context){
+      context.commit('clearList');
+    },
+
 
 
     withTextAreaPush(context, [selected, url, textArea, list]){
@@ -159,7 +166,7 @@ export const store = new Vuex.Store({
       }
     },
 
-    originError(){
+    originError(context){
       axios.interceptors.response.use((response) => response, (error) => {
         if (typeof error.response === 'undefined') {
           var response = error;
@@ -168,7 +175,8 @@ export const store = new Vuex.Store({
         }
         return Promise.reject(error)
       })
-    }
+    },
+
   },
 
   plugins: [createPersistedState()],

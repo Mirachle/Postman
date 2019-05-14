@@ -1,8 +1,8 @@
 <template>
   <div>
-      <button-comp :class="[showModal ? blurClass : '', bkClass, 'line2']" buttonValue="Environment" @clicked="showModal = true"/>
+      <button-comp :class="[showModal ? blurClass : '', bkClass, 'line2']" buttonValue="Environment" @clicked="$emit('open')"/>
       <transition enter-active-class="fadeIn" leave-active-class="fadeOut">
-        <modal @close="showModal = false" v-if="showModal"/>
+        <modal @close="$emit('close')" v-if="showModal"/>
       </transition>
   </div>
 </template>
@@ -13,11 +13,9 @@ import ButtonComp from '@/components/Input/ButtonComp';
 
 export default {
   name: "EnvironmentComp",
+  props: ['showModal'],
   data() {
     return {
-      showModal: false,
-      modalEffect: "",
-      maskEffect: "",
       bkClass: 'bk',
       blurClass: 'blur',
       };

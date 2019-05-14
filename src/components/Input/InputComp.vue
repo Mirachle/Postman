@@ -3,7 +3,7 @@
     <input-row @selectedChange="selected" @clicked="clicked" :activeIndex="activeIndex"/>
     <div class="filter-container">
     <div class="filter-class" v-for="(item,index) in filterList" :key="item" @click="filterItemClicked(index)">
-      <filter-button :item="item" :index="index" @change="selectedIndexChange" :selectIndex="isSelected" :areaVisible="areaVisible" />
+      <filter-button :item="item" :index="index" @change="selectedIndexChange" :selectIndex="isSelected" :areaVisible="areaVisible"/>
     </div>
     </div>
     <text-area v-if="areaVisible & isSelected == 1" :areaValue="areaValue" @areaChanged="areaChanged"/>
@@ -102,7 +102,7 @@ input{
 .filter-container{
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: center;
   margin-right: 6vw;
 }
 

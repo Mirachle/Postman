@@ -68,4 +68,10 @@ input {
   color: rgb(120, 120, 120);
   margin-top: 20px;
 }
+input[value='HEADER']{
+  margin-right: 5px;
+}
+input[value='BODY']{
+  margin-left: 5px;
+}
 </style>

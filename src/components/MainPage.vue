@@ -1,12 +1,12 @@
 <template>
   <div class="row">
     <div class="col-md-3 col-12 line">
-      <environment-comp/>
+      <environment-comp :showModal="showModal" @close="showModal = false" @open="showModal = true"/>
       <send-list :class="[showModal ? blurClass : '', bkClass]" @clicked="clicked" :list="sendList" :activeIndex="activeIndex"/>
     </div>
     <div :class="[showModal ? blurClass : '', bkClass, 'col-md-9 col-12']">
       <input-comp @clicked="inputClicked" :activeIndex="activeIndex" :currentList="currentList" @keyChanged="keyChanged" @valueChanged="valueChanged"/>
-      <list-comp :list="list"/>
+      <list-comp :list="list" @clearList="clearList" class="top-line"/>
     </div>
   </div>
 </template>
@@ -25,7 +25,10 @@ export default {
     return {
       itemIndex: undefined,
       activeIndex: undefined,
-      currentList: [{key: '', value: ''}]
+      currentList: [{key: '', value: ''}],
+      showModal: false,
+      bkClass: 'bk',
+      blurClass: 'blur',
       };
   },
 
@@ -73,7 +76,8 @@ export default {
       'originError',
       'postPutPatchSave',
       'getDeleteSave',
-      'postPutPatchSaveAs'
+      'postPutPatchSaveAs',
+      'clearList',
     ]),
     send(data) {
       var url = JSON.stringify(data.url).replace(/"/g, "");
@@ -195,6 +199,22 @@ https://jsonplaceholder.typicode.com/posts
 </script>
 
 <style scoped>
+.bk {
+  transition: all 0.1s ease-out;
+}
+
+.blur {
+  filter: blur(1px);
+  opacity: 0.4;
+}
+.top-line{
+  border-style: solid;
+  border-width: 3px 0px 0px 0px;
+  border-color: #1111111a;
+  margin-top: 10px;
+  padding-top: 10px;
+}
+
 .line{
   border-style: solid;
   border-width: 0px 3px 0px 0px;

@@ -1,10 +1,14 @@
 <template>
-  <div class="row" style="width:100%;">
-    <transition-group name="fade" tag="div" style="width:100%;">
-      <div v-for="(item,index) in list" :key="item" class="list-item">
-        <item-comp :item="item" :index="index"/>
-      </div>
-    </transition-group>
+  <div>
+    <input type="button" value="Export">
+    <input type="button" @click="$emit('clearList')" value="Clear">
+    <div class="row" style="width:100%;">
+      <transition-group name="fade" tag="div" style="width:100%;">
+        <div v-for="(item,index) in list" :key="item" class="list-item">
+          <item-comp :item="item" :index="index"/>
+        </div>
+      </transition-group>
+    </div>
   </div>
 </template>
 
@@ -22,6 +26,16 @@ export default {
 </script>
 
 <style scoped>
+input {
+  border-width: 0px;
+  border-radius: 5px;
+  background-color: #1111111a;
+  font-weight: 600;
+  padding: 3px;
+  padding-right: 10px;
+  padding-left: 10px;
+  cursor: pointer;
+}
 .list-item{
   width:100%;
   transition: all 0.2s;
