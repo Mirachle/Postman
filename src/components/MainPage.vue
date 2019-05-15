@@ -87,13 +87,13 @@ export default {
       if(url != ("" | " ")){
         try {
           if ((selected == "post") || (selected == "put") || (selected == "patch")) {
-            this.postPutPatchPush([selected, url, textArea, this.currentList])
+            this.postPutPatchPush([selected, url, textArea, list])
           }
           else{
             this.getDeletePush([selected, url, list])
           }
         } catch (e) {
-          this.handleError([e, selected, url])
+          this.handleError([e, selected, url, list,textArea])
         } finally {
           this.activeIndex = undefined;
         }

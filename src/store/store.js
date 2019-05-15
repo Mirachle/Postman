@@ -14,27 +14,29 @@ export const store = new Vuex.Store({
   },
 
   getters: {
-    getList(state){
+    getList(state) {
       return state.list;
     },
-    getSendList(state){
+    getSendList(state) {
       return state.sendList;
     },
-    getEnvironmentList(state){
+    getEnvironmentList(state) {
       return state.environmentList;
     },
   },
 
   mutations: {
-    listPush(state, [selected, url, response, statusCode]){
+    listPush(state, [selected, url, response, statusCode, header, body]) {
       state.list.push({
         type: selected,
         urlText: url,
         result: response,
         value: statusCode,
+        header: header,
+        body: body
       })
     },
-    sendListPush(state, [name,selected, url, headerList, body]){
+    sendListPush(state, [name, selected, url, headerList, body]) {
       state.sendList.push({
         name: name,
         type: selected,
@@ -43,130 +45,136 @@ export const store = new Vuex.Store({
         headerList: headerList
       })
     },
-    environmentListPush(state, [key, value]){
+    environmentListPush(state, [key, value]) {
       state.environmentList.push({
         key: key,
         value: value
       })
     },
-    onDelete(state, index){
+    onDelete(state, index) {
       state.list.splice(index, 1)
     },
-    sendListDelete(state, index){
+    sendListDelete(state, index) {
       state.sendList.splice(index, 1)
     },
-    sendListSaveAs(state, [name,selected, url, index, headerList, body]){
+    sendListSaveAs(state, [name, selected, url, index, headerList, body]) {
       state.sendList[index].name = name,
-      state.sendList[index].type = selected,
-      state.sendList[index].urlText = url,
-      state.sendList[index].bodyValue = body,
-      state.sendList[index].headerList = headerList
+        state.sendList[index].type = selected,
+        state.sendList[index].urlText = url,
+        state.sendList[index].bodyValue = body,
+        state.sendList[index].headerList = headerList
     },
 
     environmentListSave(state, list) {
       state.environmentList = list;
     },
-    environmentListDelete(state, index){
+    environmentListDelete(state, index) {
       state.environmentList.splice(index, 1)
     },
-    clearList(state){
+    clearList(state) {
       state.list = []
     }
   },
 
   actions: {
-    environmentListPush(context, [key, value]){
-      context.commit('environmentListPush',[key, value])
+    environmentListPush(context, [key, value]) {
+      context.commit('environmentListPush', [key, value])
     },
-    environmentListDelete(context, index){
+    environmentListDelete(context, index) {
       context.commit('environmentListDelete', index);
     },
-    onDelete(context, index){
+    onDelete(context, index) {
       context.commit('onDelete', index);
     },
-    sendListDelete(context, index){
+    sendListDelete(context, index) {
       context.commit('sendListDelete', index);
     },
-    postPutPatchSave(context, [name,selected,url, headerList, textArea]){
-      context.commit('sendListPush', [name,selected,url, headerList, textArea])
+    postPutPatchSave(context, [name, selected, url, headerList, textArea]) {
+      context.commit('sendListPush', [name, selected, url, headerList, textArea])
     },
-    getDeleteSave(context,[name,selected,url, headerList]){
-      context.commit('sendListPush',[name,selected,url, headerList])
+    getDeleteSave(context, [name, selected, url, headerList]) {
+      context.commit('sendListPush', [name, selected, url, headerList])
     },
-    postPutPatchSaveAs(context, [name,selected,url,index, headerList, textArea]){
-      context.commit('sendListSaveAs', [name,selected,url,index, headerList, textArea])
+    postPutPatchSaveAs(context, [name, selected, url, index, headerList, textArea]) {
+      context.commit('sendListSaveAs', [name, selected, url, index, headerList, textArea])
     },
-    clearList(context){
+    clearList(context) {
       context.commit('clearList');
     },
 
 
 
-    withTextAreaPush(context, [selected, url, textArea, list]){
+    withTextAreaPush(context, [selected, url, textArea, list]) {
       var o = new Object();
-      list.forEach(item => {o[item.key] = item.value})
+      list.forEach(item => { o[item.key] = item.value })
 
-      if ((list[0].key != "") && (list[0].key != " ") && (list[0].key != undefined)){
-        return axios[selected](url, JSON.parse(textArea), {headers: o})
+      if ((list[0].key != "") && (list[0].key != " ") && (list[0].key != undefined)) {
+        return axios[selected](url, JSON.parse(textArea), { headers: o })
       }
       return axios[selected](url, JSON.parse(textArea))
     },
-    postPutPatchPush(context, [selected, url, textArea, list]){
-      context.dispatch('withTextAreaPush',[selected, url, textArea, list])
-      .then(r => {
-        if (r.data.result){
-          var response = JSON.stringify(r.data.result).replace(/"/g, " ");
-        }
-        else {
-          var response = JSON.stringify(r.data).replace(/"/g, " ");
-        }
-        var statusCode = JSON.stringify(r.status);
-        context.commit('listPush', [selected, url, response, statusCode])
-      })
-      .catch(e => {
-        context.dispatch('handleError',[e, selected, url])
-      });
+    postPutPatchPush(context, [selected, url, textArea, list]) {
+      var o = new Object();
+      list.forEach(item => { o[item.key] = item.value })
+      context.dispatch('withTextAreaPush', [selected, url, textArea, list])
+        .then(r => {
+          if (r.data.result) {
+            var response = JSON.stringify(r.data.result).replace(/"/g, " ");
+          }
+          else {
+            var response = JSON.stringify(r.data).replace(/"/g, " ");
+          }
+          var statusCode = JSON.stringify(r.status);
+          context.commit('listPush', [selected, url, response, statusCode, o, JSON.parse(textArea)])
+        })
+        .catch(e => {
+          context.dispatch('handleError', [e, selected, url, list, JSON.parse(textArea)])
+        });
     },
 
 
-    withoutTextAreaPush(context, [selected, url, list]){
+    withoutTextAreaPush(context, [selected, url, list]) {
       var o = new Object();
-      list.forEach(item => {o[item.key] = item.value})
+      list.forEach(item => { o[item.key] = item.value })
 
-      if ((list[0].key != "") && (list[0].key != " ") && (list[0].key != undefined)){
-        return axios[selected](url, {headers: o})
+      if ((list[0].key != "") && (list[0].key != " ") && (list[0].key != undefined)) {
+        return axios[selected](url, { headers: o })
       }
       return axios[selected](url)
     },
-    getDeletePush(context, [selected, url, list]){
-      context.dispatch('withoutTextAreaPush',[selected, url, list])
+    getDeletePush(context, [selected, url, list]) {
+      var o = new Object();
+      list.forEach(item => { o[item.key] = item.value })
+      context.dispatch('withoutTextAreaPush', [selected, url, list])
         .then(r => {
           var response = JSON.stringify(r.data).replace(/"/g, " ");
           var statusCode = JSON.stringify(r.status);
-          context.commit('listPush', [selected, url, response, statusCode])
+          context.commit('listPush', [selected, url, response, statusCode, o, '-'])
         })
-        .catch(e => context.dispatch('handleError',[e, selected, url]));
+        .catch(e => context.dispatch('handleError', [e, selected, url, list, '-']));
     },
 
 
-    handleError(context, [e, selected, url]){
-      try{
+    handleError(context, [e, selected, url, list, textArea]) {
+      var o = new Object();
+      list.forEach(item => { o[item.key] = item.value })
+      try {
         var response = JSON.stringify(e.response).replace(/"/g, " ");
         var statusCode = JSON.stringify(e.response.status);
-        context.commit('listPush', [selected, url, response, statusCode])
+        context.commit('listPush', [selected, url, response, statusCode, o, textArea])
       }
-      catch(e){
+      catch (e) {
         if (e.response) {
           var response = JSON.stringify(e.response).replace(/"/g, " ");
           var statusCode = JSON.stringify(e.response.status);
-          context.commit('listPush', [selected, url, response, statusCode])
+          context.commit('listPush', [selected, url, response, statusCode, o, textArea])
         } else {
-        context.commit('listPush', [selected, url, e.message, '0'])
+          context.commit('listPush', [selected, url, e.message, '0', o, textArea])
         }
       }
     },
 
-    originError(context){
+    originError(context) {
       axios.interceptors.response.use((response) => response, (error) => {
         if (typeof error.response === 'undefined') {
           var response = error;

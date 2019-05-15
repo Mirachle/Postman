@@ -1,5 +1,5 @@
 <template>
-  <div >
+  <div>
     <div :class="['row', allTime, this.isShowResult==1? 'in-cont':'in-cont-select']">
       <div :class="['col-12', 'col-md-1']" :id="itemCircleId">
         <circle-icon :success="isSuccess"/>
@@ -11,42 +11,57 @@
         <shape-icon :selected="isShowResult" @clicked="Clicked()"/>
       </div>
       <div class="col-md-1 ic-delete">
-       <ic-delete @clicked="onDelete(index)" :r="15"/>
+        <ic-delete @clicked="onDelete(index)" :r="15"/>
       </div>
     </div>
-    <div v-if="this.isShowResult==1? '':'hide'" :class="['row']">
-      <div :class="['col-12','animated', effectName]" :id="itemResultId">{{this.item.result}}</div>
+    <transition name="custom-classes-transition"
+    enter-active-class="animated fadeInDown"
+    leave-active-class="animated fadeOutUp">
+    <div v-if="this.isShowResult==1? '':'hide'" class='row'>
+      <div class="col-12" :id="itemResultId">
+        <span>Header</span>
+        {{this.item.header}}
+      </div>
+      <div class='col-12' :id="itemResultId">
+        <span>Body</span>
+        {{this.item.body}}
+      </div>
+      <div class="col-12" :id="itemResultBottomId">
+        <span>Response</span>
+        {{this.item.result}}
+      </div>
     </div>
+    </transition>
   </div>
 </template>
 
 <script>
-import Circle from '@/components/List/Circle';
-import Shape from '@/components/List/Shape';
+import Circle from "@/components/List/Circle";
+import Shape from "@/components/List/Shape";
 import IcDelete from "@/components/SendList/IcDelete";
-import { mapActions } from 'vuex';
+import { mapActions } from "vuex";
 
 /* eslint-disable */
 export default {
-  name: 'ItemComp',
-  props: ['item', 'index'],
+  name: "ItemComp",
+  props: ["item", "index"],
   components: {
-    'shape-icon': Shape,
-    'circle-icon': Circle,
-    "ic-delete": IcDelete,
+    "shape-icon": Shape,
+    "circle-icon": Circle,
+    "ic-delete": IcDelete
   },
   data() {
     return {
       isShowResult: 1,
-      itemTypeId: 'item-type',
-      itemUrlTextId: 'item-url',
-      itemValueId: 'item-value',
-      itemShapeId: 'item-shape',
-      itemCircleId: 'item-circle',
-      itemResultId: 'item-result',
+      itemTypeId: "item-type",
+      itemUrlTextId: "item-url",
+      itemValueId: "item-value",
+      itemShapeId: "item-shape",
+      itemCircleId: "item-circle",
+      itemResultBottomId: "item-result-bottom",
       isSuccess: 0,
-      effectName: 'fadeInDown',
-
+      effectName: "fadeInDown",
+      itemResultId: "item-result"
     };
   },
   computed: {
@@ -56,27 +71,19 @@ export default {
       } else {
         this.isSuccess = 0;
       }
-    },
+    }
   },
   methods: {
     Clicked() {
-      if (this.isShowResult) {
-        this.effectName = 'fadeInDown';
-        this.isShowResult = 0;
-      } else {
-        this.effectName = 'fadeOutUp';
-        setTimeout(() => this.isShowResult = 1, 750);
-      }
+      this.isShowResult = !this.isShowResult;
     },
-    ...mapActions([
-      'onDelete'
-    ])
-  },
+    ...mapActions(["onDelete"])
+  }
 };
 </script>
 
 <style scoped>
-.row{
+.row {
   margin: 0;
 }
 .in-cont {
@@ -94,6 +101,11 @@ export default {
 }
 #item-result {
   background-color: #bebebe;
+  text-align: center;
+}
+#item-result-bottom {
+  background-color: #bebebe;
+  text-align: center;
   border-bottom-left-radius: 15px;
   border-bottom-right-radius: 15px;
   word-break: break-all;
@@ -127,20 +139,31 @@ export default {
 .hide {
   display: none;
 }
+span{
+  display: block;
+  text-decoration: underline;
+}
 
-.row{
+.row {
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-.ic-delete{
+.ic-delete {
   text-align: right;
 }
 @media only screen and (max-width: 767.9px) {
-    .ic-delete{
-      display: flex;
-      justify-content: center;
-    }
+  .ic-delete {
+    display: flex;
+    justify-content: center;
   }
+}
+
+.slide-enter-active, .slide-leave-active {
+  transition: opacity .5s;
+}
+.slide-enter, .slide-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  opacity: 0;
+}
 </style>

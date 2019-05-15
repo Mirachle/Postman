@@ -36,11 +36,6 @@ export default {
       this.$emit('areaChanged', this.value)
     }
   },
-  computed: {
-    color(){
-        return "";
-    }
-  },
 };
 </script>
 
