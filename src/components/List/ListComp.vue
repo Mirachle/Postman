@@ -1,6 +1,6 @@
 <template>
   <div>
-    <input type="button" value="Export">
+    <input type="button" @click="download" value="Export">
     <input type="button" @click="$emit('clearList')" value="Clear">
     <div class="row" style="width:100%;">
       <transition-group name="fade" tag="div" style="width:100%;">
@@ -14,6 +14,8 @@
 
 <script>
 import ItemComp from '@/components/List/ItemComp';
+import axios from 'axios';
+import { mapGetters } from 'vuex';
 
 export default {
   name: 'ListComp',
@@ -21,11 +23,33 @@ export default {
   components: {
     'item-comp': ItemComp,
   },
+  computed: {
+    ...mapGetters({
+    //  list: 'getList'
+    })
+  },
+  methods: {
+    download(){
+      const data = JSON.stringify(this.list, null, 2)
+      const blob = new Blob([data], {type: 'text/plain'})
+      const e = document.createEvent('MouseEvents'),
+      a = document.createElement('a');
+      a.download = "list.json";
+      a.href = window.URL.createObjectURL(blob);
+      a.dataset.downloadurl = ['text/json', a.download, a.href];
+      e.initEvent('click', true, false);
+      a.dispatchEvent(e);
+    }
+  }
 };
 
 </script>
 
 <style scoped>
+.row{
+  margin-left: 0px;
+}
+
 input {
   border-width: 0px;
   border-radius: 5px;
