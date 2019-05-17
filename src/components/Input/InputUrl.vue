@@ -12,12 +12,15 @@ export default {
     url: {
       type: String,
       default: ''
+    },
+    color: {
+      type: String,
+      default: ''
     }
   },
   data() {
     return {
       value: undefined,
-      reg: /(((http|https)\:\/\/)|(www)){1}[a-zA-Z0-9\.\/\?\:@\-_=#]+\.([a-zA-Z0-9\&\.\/\?\:@\-_=#])*/g
     };
   },
   watch:{
@@ -27,17 +30,8 @@ export default {
   },
   methods: {
     urlChanged(){
-      this.$emit('urlChanged', this.value)
+        this.$emit('urlChanged', this.value)
     },
-  },
-  computed: {
-    color(){
-      if (this.reg.test(this.url)){
-        return "";
-      } else {
-        return "red-color";
-      }
-    }
   },
 };
 </script>

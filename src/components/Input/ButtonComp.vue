@@ -13,10 +13,10 @@
 <script>
 export default {
   name: "ButtonComp",
-  props: ["buttonValue", "active"],
+  props: ["buttonValue", "active", 'disable'],
   computed: {
     saveAsButton() {
-      if (this.buttonValue == "SAVE AS" && undefined == this.active) {
+      if ((this.buttonValue == "SAVE AS" && this.active == undefined) || (this.disable == true)) {
         return true;
       } else {
         return false;

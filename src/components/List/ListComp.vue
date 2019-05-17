@@ -15,18 +15,12 @@
 <script>
 import ItemComp from '@/components/List/ItemComp';
 import axios from 'axios';
-import { mapGetters } from 'vuex';
 
 export default {
   name: 'ListComp',
   props: ['list'],
   components: {
     'item-comp': ItemComp,
-  },
-  computed: {
-    ...mapGetters({
-    //  list: 'getList'
-    })
   },
   methods: {
     download(){

@@ -6,9 +6,9 @@
       @selected="selectedChange"
       :index="activeIndex"
     />
-    <input-url class="col-md-8 col-12 col-sm-8 center" :url="url" @urlChanged="urlChanged"/>
+    <input-url class="col-md-8 col-12 col-sm-8 center" :url="url" :color="color" @urlChanged="urlChanged"/>
     <div id="button-container" class="col-md-2 col-12 col-sm-12 center">
-      <button-comp id="button" @clicked="clicked" :buttonValue="sendButtonValue"/>
+      <button-comp :disable="disable" id="button" @clicked="clicked" :buttonValue="sendButtonValue"/>
       <button-comp id="button" @clicked="clicked" :buttonValue="saveButtonValue"/>
       <button-comp
         id="button"
@@ -41,7 +41,10 @@ export default {
       method: "post",
       sendButtonValue: "SEND",
       saveButtonValue: "SAVE",
-      saveAsButtonValue: "SAVE AS"
+      saveAsButtonValue: "SAVE AS",
+      disable: true,
+      color: "",
+      reg: /(((http|https)\:\/\/)|(www)){1}[a-zA-Z0-9\.\/\?\:@\-_=#]+\.([a-zA-Z0-9\&\.\/\?\:@\-_=#])*/g,
     };
   },
   watch: {
@@ -63,6 +66,13 @@ export default {
   methods: {
     urlChanged(url) {
       this.url = url;
+      if (this.reg.test(url)){
+        this.disable = false
+        this.color = ""
+      } else {
+        this.disable = true
+        this.color = "red-color";
+      }
     },
     selectedChange(value) {
       this.$emit("selectedChange", value);
