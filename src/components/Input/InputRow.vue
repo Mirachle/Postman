@@ -44,18 +44,18 @@ export default {
       saveAsButtonValue: "SAVE AS",
       disable: true,
       color: "",
-      reg: /(((http|https)\:\/\/)|(www)){1}[a-zA-Z0-9\.\/\?\:@\-_=#]+\.([a-zA-Z0-9\&\.\/\?\:@\-_=#])*/g,
+      reg: /(((http|https)\:\/\/)|(www)){1}[a-zA-Z0-9\.\/\?\:@\-_=#]+\.([a-zA-Z0-9\&\.\/\?\:@\-_=#])*/,
     };
   },
   watch: {
     activeIndex(newValue, oldValue) {
       if (this.activeIndex != undefined){
-        this.url = this.sendList[newValue].urlText;
+        this.url = this.sendList[newValue].urlText
       }
       else {
         this.url = ""
       }
-
+      this.urlChanged(this.url)
     }
   },
   computed: {
@@ -71,7 +71,7 @@ export default {
         this.color = ""
       } else {
         this.disable = true
-        this.color = "red-color";
+        this.color = "red-color"
       }
     },
     selectedChange(value) {
