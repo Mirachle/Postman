@@ -52,7 +52,7 @@
     "extract-text-webpack-plugin": "^3.0.0",
     "file-loader": "^1.1.4",
     "friendly-errors-webpack-plugin": "^1.6.1",
-    "html-webpack-plugin": "^2.30.1",
+    "html-webpack-plugin": "^5.5.0",
     "jsdom": "^15.1.0",
     "jsdom-global": "^3.0.2",
     "mocha": "^6.1.4",
